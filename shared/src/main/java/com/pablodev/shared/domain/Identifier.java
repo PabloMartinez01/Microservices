@@ -1,14 +1,16 @@
 package com.pablodev.shared.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.UUID;
 
 @Getter
+@NoArgsConstructor
 public class Identifier implements Serializable {
 
-    protected final String value;
+    protected String value;
 
     public Identifier(String value) {
         ensureValidUuid(value);

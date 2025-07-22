@@ -1,7 +1,6 @@
 package com.pablodev.organizationservice.organization.domain;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface OrganizationRepository {
     void createOrganization(Organization organization);

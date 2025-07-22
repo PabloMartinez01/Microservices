@@ -4,6 +4,7 @@ import com.pablodev.organizationservice.organization.domain.exception.Organizati
 import com.pablodev.shared.domain.ValueObject;
 
 public class AddressState extends ValueObject<String> {
+
     public AddressState(String value) {
         super(value);
         ensureValidState();

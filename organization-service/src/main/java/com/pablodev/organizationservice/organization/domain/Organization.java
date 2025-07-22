@@ -13,4 +13,6 @@ public class Organization extends Aggregate {
     private OrganizationName name;
     private OrganizationAddress address;
     private OrganizationType type;
+
+
 }

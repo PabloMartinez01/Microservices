@@ -13,7 +13,7 @@ public class OrganizationCreator {
     private final OrganizationRepository repository;
 
     public void create(OrganizationId id, OrganizationName name, OrganizationAddress address, OrganizationType type) {
-        Organization organization = new Organization(id, name, address, type);
+        Organization organization = Organization.create(id, name, address, type);
         repository.create(organization);
     }
 

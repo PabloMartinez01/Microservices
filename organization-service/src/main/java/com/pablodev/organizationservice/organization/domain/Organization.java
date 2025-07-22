@@ -14,5 +14,9 @@ public class Organization extends Aggregate {
     private OrganizationAddress address;
     private OrganizationType type;
 
+    public static Organization create(OrganizationId id, OrganizationName name, OrganizationAddress address, OrganizationType type) {
+        return new Organization(id, name, address, type);
+    }
+
 
 }

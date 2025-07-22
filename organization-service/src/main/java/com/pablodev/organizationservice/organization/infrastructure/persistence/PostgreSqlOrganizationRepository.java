@@ -1,12 +1,14 @@
 package com.pablodev.organizationservice.organization.infrastructure.persistence;
 
 import com.pablodev.organizationservice.organization.domain.*;
+import com.pablodev.organizationservice.organization.domain.exception.OrganizationIdNotExist;
+import com.pablodev.organizationservice.organization.domain.exception.OrganizationNameNotExist;
+import com.pablodev.organizationservice.organization.infrastructure.persistence.entities.OrganizationEntity;
+import com.pablodev.organizationservice.organization.infrastructure.persistence.entities.OrganizationEntityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @Repository

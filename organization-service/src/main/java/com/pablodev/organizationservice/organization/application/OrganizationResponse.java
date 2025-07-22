@@ -23,18 +23,4 @@ public class OrganizationResponse {
         );
     }
 
-    @Getter
-    @AllArgsConstructor
-    public static class AddressResponse {
-        private String street;
-        private String city;
-        private String state;
-        private String country;
-
-        public static AddressResponse from(OrganizationAddress address) {
-            return new AddressResponse(address.getStreet(), address.getCity(), address.getState(), address.getCountry());
-        }
-    }
-
-
 }

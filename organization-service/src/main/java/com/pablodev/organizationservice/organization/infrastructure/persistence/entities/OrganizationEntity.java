@@ -1,4 +1,4 @@
-package com.pablodev.organizationservice.organization.infrastructure.persistence;
+package com.pablodev.organizationservice.organization.infrastructure.persistence.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

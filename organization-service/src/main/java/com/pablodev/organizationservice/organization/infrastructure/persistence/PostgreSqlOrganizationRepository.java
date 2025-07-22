@@ -19,44 +19,44 @@ public class PostgreSqlOrganizationRepository implements OrganizationRepository 
     private final OrganizationEntityMapper organizationEntityMapper;
 
     @Override
-    public void createOrganization(Organization organization) {
+    public void create(Organization organization) {
         OrganizationEntity organizationEntity = organizationEntityMapper.fromAggregate(organization);
         jpaOrganizationRepository.save(organizationEntity);
     }
 
     @Override
-    public Organization findOrganizationById(OrganizationId id) {
+    public Organization findById(OrganizationId id) {
         return jpaOrganizationRepository.findById(id.getValue())
                 .map(organizationEntityMapper::toAggregate)
                 .orElseThrow(() -> new OrganizationIdNotExist(id));
     }
 
     @Override
-    public Organization findOrganizationByName(OrganizationName name) {
+    public Organization findByName(OrganizationName name) {
         return jpaOrganizationRepository.findByName(name.getValue())
                 .map(organizationEntityMapper::toAggregate)
                 .orElseThrow(() -> new OrganizationNameNotExist(name));
     }
 
     @Override
-    public List<Organization> findAllOrganizations() {
+    public List<Organization> findAll() {
        return StreamSupport.stream(jpaOrganizationRepository.findAll().spliterator(), false)
                 .map(organizationEntityMapper::toAggregate)
                 .toList();
     }
 
     @Override
-    public void updateOrganization(OrganizationId id, Organization organization) {
+    public void update(OrganizationId id, Organization organization) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void deleteOrganizationById(OrganizationId id) {
+    public void deleteById(OrganizationId id) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void deleteOrganizationByName(OrganizationName name) {
+    public void deleteByName(OrganizationName name) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

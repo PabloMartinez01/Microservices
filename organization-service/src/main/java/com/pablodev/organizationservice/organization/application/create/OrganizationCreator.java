@@ -3,9 +3,9 @@ package com.pablodev.organizationservice.organization.application.create;
 import com.pablodev.organizationservice.organization.domain.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 @RequiredArgsConstructor
 @Transactional
 public class OrganizationCreator {
@@ -14,7 +14,7 @@ public class OrganizationCreator {
 
     public void create(OrganizationId id, OrganizationName name, OrganizationAddress address, OrganizationType type) {
         Organization organization = new Organization(id, name, address, type);
-        repository.createOrganization(organization);
+        repository.create(organization);
     }
 
 }

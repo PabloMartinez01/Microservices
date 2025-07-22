@@ -12,9 +12,21 @@ public class OrganizationCreator {
 
     private final OrganizationRepository repository;
 
-    public void create(OrganizationId id, OrganizationName name, OrganizationAddress address, OrganizationType type) {
-        Organization organization = Organization.create(id, name, address, type);
-        repository.create(organization);
+    public void create(CreateOrganizationRequest request) {
+
+        Organization organization = Organization.create(
+                request.id(),
+                request.name(),
+                OrganizationAddress.create(
+                        request.address().street(),
+                        request.address().city(),
+                        request.address().state(),
+                        request.address().country()
+                ),
+                request.type()
+        );
+
+        repository.save(organization);
     }
 
 }

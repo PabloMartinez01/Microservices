@@ -7,8 +7,8 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 public class Organization extends Aggregate {
+
     private OrganizationId id;
     private OrganizationName name;
     private OrganizationAddress address;
@@ -16,6 +16,15 @@ public class Organization extends Aggregate {
 
     public static Organization create(OrganizationId id, OrganizationName name, OrganizationAddress address, OrganizationType type) {
         return new Organization(id, name, address, type);
+    }
+
+    public static Organization create(String id, String name, OrganizationAddress address, String type) {
+        return new Organization(
+                new OrganizationId(id),
+                new OrganizationName(name),
+                address,
+                OrganizationType.valueOf(type)
+        );
     }
 
 

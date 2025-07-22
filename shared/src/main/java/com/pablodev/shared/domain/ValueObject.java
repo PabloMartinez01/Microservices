@@ -10,5 +10,5 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 public abstract class ValueObject<T> {
-    protected T value;
+    protected final T value;
 }

@@ -9,10 +9,10 @@ public class OrganizationEntityMapper {
         return new OrganizationEntity(
                 organization.getId().getValue(),
                 organization.getName().getValue(),
-                organization.getAddress().getStreet(),
-                organization.getAddress().getCity(),
-                organization.getAddress().getState(),
-                organization.getAddress().getCountry(),
+                organization.getAddress().getStreet().getValue(),
+                organization.getAddress().getCity().getValue(),
+                organization.getAddress().getState().getValue(),
+                organization.getAddress().getCountry().getValue(),
                 organization.getType().name()
         );
     }
@@ -22,10 +22,10 @@ public class OrganizationEntityMapper {
                 new OrganizationId(entity.getId()),
                 new OrganizationName(entity.getName()),
                 new OrganizationAddress(
-                        entity.getStreet(),
-                        entity.getCity(),
-                        entity.getState(),
-                        entity.getCountry()
+                        new AddressStreet(entity.getStreet()),
+                        new AddressCity(entity.getCity()),
+                        new AddressState(entity.getState()),
+                        new AddressCountry(entity.getCountry())
                 ),
                 OrganizationType.valueOf(entity.getType())
         );

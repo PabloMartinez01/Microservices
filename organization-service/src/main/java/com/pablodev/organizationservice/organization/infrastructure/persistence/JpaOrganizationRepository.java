@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface JpaOrganizationRepository extends JpaRepository<OrganizationEntity, String> {
     Optional<OrganizationEntity> findByName(String name);
+    void deleteByName(String name);
 }

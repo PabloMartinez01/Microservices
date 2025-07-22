@@ -1,62 +1,54 @@
 package com.pablodev.organizationservice.organization.infrastructure.persistence;
 
 import com.pablodev.organizationservice.organization.domain.*;
-import com.pablodev.organizationservice.organization.domain.exception.OrganizationIdNotExist;
-import com.pablodev.organizationservice.organization.domain.exception.OrganizationNameNotExist;
 import com.pablodev.organizationservice.organization.infrastructure.persistence.entities.OrganizationEntity;
 import com.pablodev.organizationservice.organization.infrastructure.persistence.entities.OrganizationEntityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.stream.StreamSupport;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
 public class PostgreSqlOrganizationRepository implements OrganizationRepository {
 
-    private final JpaOrganizationRepository jpaOrganizationRepository;
-    private final OrganizationEntityMapper organizationEntityMapper;
+    private final JpaOrganizationRepository organizationRepository;
+    private final OrganizationEntityMapper organizationMapper;
 
     @Override
-    public void create(Organization organization) {
-        OrganizationEntity organizationEntity = organizationEntityMapper.fromAggregate(organization);
-        jpaOrganizationRepository.save(organizationEntity);
+    public void save(Organization organization) {
+        OrganizationEntity organizationEntity = organizationMapper.fromAggregate(organization);
+        organizationRepository.save(organizationEntity);
     }
 
     @Override
-    public Organization findById(OrganizationId id) {
-        return jpaOrganizationRepository.findById(id.getValue())
-                .map(organizationEntityMapper::toAggregate)
-                .orElseThrow(() -> new OrganizationIdNotExist(id));
+    public Optional<Organization> findById(OrganizationId id) {
+        return organizationRepository.findById(id.getValue())
+                .map(organizationMapper::toAggregate);
     }
 
     @Override
-    public Organization findByName(OrganizationName name) {
-        return jpaOrganizationRepository.findByName(name.getValue())
-                .map(organizationEntityMapper::toAggregate)
-                .orElseThrow(() -> new OrganizationNameNotExist(name));
+    public Optional<Organization> findByName(OrganizationName name) {
+        return organizationRepository.findByName(name.getValue())
+                .map(organizationMapper::toAggregate);
     }
 
     @Override
     public List<Organization> findAll() {
-       return StreamSupport.stream(jpaOrganizationRepository.findAll().spliterator(), false)
-                .map(organizationEntityMapper::toAggregate)
+       return organizationRepository.findAll().stream()
+                .map(organizationMapper::toAggregate)
                 .toList();
     }
 
-    @Override
-    public void update(OrganizationId id, Organization organization) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
     @Override
     public void deleteById(OrganizationId id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        organizationRepository.deleteById(id.getValue());
     }
 
     @Override
     public void deleteByName(OrganizationName name) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        organizationRepository.deleteByName(name.getValue());
     }
 }

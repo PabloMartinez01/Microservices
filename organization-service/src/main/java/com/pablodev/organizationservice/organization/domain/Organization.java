@@ -22,7 +22,7 @@ public class Organization extends AggregateRoot {
         this.id = new OrganizationId(id);
         this.name = new OrganizationName(name);
         this.address = new OrganizationAddress(street, city, state, country);
-        this.type = OrganizationType.valueOf(type);
+        this.type = OrganizationType.from(type);
     }
 
     public static Organization create(

@@ -20,8 +20,8 @@ public class OrganizationGetController {
     @GetMapping("/{id}")
     public ResponseEntity<OrganizationResponse> find(@PathVariable String id) {
         FindOrganizationQuery query = new FindOrganizationQuery(id);
-        OrganizationResponse organizationResponse = finder.find(query);
-        return ResponseEntity.ok(organizationResponse);
+        OrganizationResponse response = finder.find(query);
+        return ResponseEntity.ok(response);
     }
 
 }

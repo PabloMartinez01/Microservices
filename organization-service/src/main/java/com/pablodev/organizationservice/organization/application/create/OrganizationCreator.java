@@ -23,9 +23,9 @@ public class OrganizationCreator {
     }
 
     private void ensureOrganizationNameNotExist(String name) {
-        repository.findByName(new OrganizationName(name)).ifPresent(organization -> {
-            throw new OrganizationAlreadyExistsException(organization.getName());
-        });
+        if (repository.findByName(new OrganizationName(name)).isPresent()) {
+            throw new OrganizationAlreadyExistsException(name);
+        }
     }
 
     private Organization createOrganization(CreateOrganizationCommand command) {

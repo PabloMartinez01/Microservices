@@ -1,5 +1,7 @@
 package com.pablodev.organizationservice.organization.domain;
 
+import com.pablodev.shared.domain.criteria.Criteria;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +10,6 @@ public interface OrganizationRepository {
     Optional<Organization> findById(OrganizationId id);
     Optional<Organization> findByName(OrganizationName name);
     List<Organization> findAll();
+    List<Organization> search(Criteria criteria);
     void deleteById(OrganizationId id);
-    void deleteByName(OrganizationName name);
 }

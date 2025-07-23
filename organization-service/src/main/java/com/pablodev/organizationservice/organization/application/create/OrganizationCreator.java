@@ -1,8 +1,7 @@
 package com.pablodev.organizationservice.organization.application.create;
 
 import com.pablodev.organizationservice.organization.domain.*;
-import com.pablodev.organizationservice.organization.domain.exception.OrganizationAlreadyExists;
-import com.pablodev.organizationservice.organization.domain.exception.OrganizationIllegalArgumentException;
+import com.pablodev.organizationservice.organization.domain.exception.OrganizationAlreadyExistsException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,7 @@ public class OrganizationCreator {
 
     private void ensureOrganizationNameNotExist(String name) {
         repository.findByName(new OrganizationName(name)).ifPresent(organization -> {
-            throw new OrganizationAlreadyExists(organization.getName());
+            throw new OrganizationAlreadyExistsException(organization.getName());
         });
     }
 

@@ -2,9 +2,14 @@ package com.pablodev.organizationservice.organization.application.create;
 
 import com.pablodev.organizationservice.organization.domain.*;
 import com.pablodev.organizationservice.organization.domain.exception.OrganizationAlreadyExistsException;
+import com.pablodev.shared.domain.criteria.Criteria;
+import com.pablodev.shared.domain.criteria.Filter;
+import com.pablodev.shared.domain.criteria.Order;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +28,8 @@ public class OrganizationCreator {
     }
 
     private void ensureOrganizationNameNotExist(String name) {
-        if (repository.findByName(new OrganizationName(name)).isPresent()) {
+        Criteria criteria = Criteria.of(Order.unordered(), Filter.equal("name", name));
+        if (!repository.search(criteria).isEmpty()) {
             throw new OrganizationAlreadyExistsException(name);
         }
     }

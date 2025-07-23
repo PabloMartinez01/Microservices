@@ -1,6 +1,7 @@
 package com.pablodev.organizationservice.organization.infrastructure.persistence;
 
 import com.pablodev.organizationservice.organization.infrastructure.persistence.entities.OrganizationEntity;
+import com.pablodev.shared.infrastructure.criteria.CriteriaConverter;
 import com.pablodev.shared.infrastructure.repository.BaseRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

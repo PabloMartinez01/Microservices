@@ -16,4 +16,8 @@ public class Criteria {
         return new Criteria(order,  Arrays.stream(filter).toList());
     }
 
+    public static Criteria empty() {
+        return new Criteria(Order.unordered(), List.of());
+    }
+
 }

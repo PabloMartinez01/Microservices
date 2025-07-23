@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrganizationEntity {
+
     @Id
     private String id;
 
@@ -35,4 +36,5 @@ public class OrganizationEntity {
 
     @Column(nullable = false)
     private String type;
+
 }

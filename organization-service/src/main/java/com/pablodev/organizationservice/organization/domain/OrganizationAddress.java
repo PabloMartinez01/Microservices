@@ -1,23 +1,29 @@
 package com.pablodev.organizationservice.organization.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-@Getter
-@AllArgsConstructor
 public class OrganizationAddress {
     private final AddressStreet street;
     private final AddressCity city;
     private final AddressState state;
     private final AddressCountry country;
 
-    public static OrganizationAddress create(String street, String city, String state, String country) {
-        return new OrganizationAddress(
-                new AddressStreet(street),
-                new AddressCity(city),
-                new AddressState(state),
-                new AddressCountry(country)
-        );
+    public OrganizationAddress(String street, String city, String state, String country) {
+        this.street = new AddressStreet(street);
+        this.city = new AddressCity(city);
+        this.state = new AddressState(state);
+        this.country = new AddressCountry(country);
+    }
+
+    public String getStreet() {
+        return street.getValue();
+    }
+    public String getCity() {
+        return city.getValue();
+    }
+    public String getState() {
+        return state.getValue();
+    }
+    public String getCountry() {
+        return country.getValue();
     }
 
 }

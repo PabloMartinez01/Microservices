@@ -1,6 +1,6 @@
 package com.pablodev.organizationservice.organization.infrastructure.controller.post;
 
-import com.pablodev.organizationservice.organization.application.create.CreateOrganizationRequest;
+import com.pablodev.organizationservice.organization.application.create.CreateOrganizationCommand;
 import com.pablodev.organizationservice.organization.application.create.OrganizationCreator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,20 +20,20 @@ public class OrganizationPostController {
     private final OrganizationCreator creator;
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody CreateOrganizationHttpRequest httpRequest) {
+    public ResponseEntity<Void> create(@RequestBody CreateOrganizationRequest httpRequest) {
 
-        CreateOrganizationRequest applicationRequest =new CreateOrganizationRequest(
+        CreateOrganizationCommand applicationRequest = new CreateOrganizationCommand(
                 UUID.randomUUID().toString(),
                 httpRequest.name(),
                 httpRequest.type(),
-                new CreateOrganizationRequest.CreateOrganizationAddressRequest(
-                        httpRequest.address().street(),
-                        httpRequest.address().city(),
-                        httpRequest.address().state(),
-                        httpRequest.address().country()
-                )
+                httpRequest.address().street(),
+                httpRequest.address().city(),
+                httpRequest.address().state(),
+                httpRequest.address().country()
         );
+
         creator.create(applicationRequest);
+
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

@@ -9,8 +9,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -28,7 +26,7 @@ public class OrganizationCreator {
     }
 
     private void ensureOrganizationNameNotExist(String name) {
-        Criteria criteria = Criteria.of(Order.unordered(), Filter.equal("name", name));
+        Criteria criteria = Criteria.of(Order.unordered(), Filter.equals("name", name));
         if (!repository.search(criteria).isEmpty()) {
             throw new OrganizationAlreadyExistsException(name);
         }

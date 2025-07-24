@@ -1,8 +1,6 @@
 package com.pablodev.shared.domain.criteria;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import org.springframework.data.jpa.domain.Specification;
 
 @AllArgsConstructor
 public class Filter {
@@ -10,15 +8,7 @@ public class Filter {
     private final FilterOperator operator;
     private final FilterValue value;
 
-    public static Filter of(String field, FilterOperator operator, String value) {
-        return new Filter(
-                new FilterField(field),
-                operator,
-                new FilterValue(value)
-        );
-    }
-
-    public static Filter equal(String field, String value) {
+    public static Filter equals(String field, String value) {
         return new Filter(new FilterField(field), FilterOperator.EQUAL, new FilterValue(value));
     }
 

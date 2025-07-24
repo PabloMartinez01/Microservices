@@ -2,12 +2,15 @@ package com.pablodev.shared.infrastructure.criteria;
 
 import com.pablodev.shared.domain.criteria.*;
 import com.pablodev.shared.infrastructure.criteria.converter.*;
+import org.reflections.Reflections;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 
 
@@ -15,17 +18,27 @@ public class CriteriaConverter<T> {
 
     private final Map<FilterOperator, SpecificationConverter<T>> specifications;
 
+    @SuppressWarnings("unchecked")
     public CriteriaConverter() {
+
         specifications = new EnumMap<>(FilterOperator.class);
-        specifications.put(FilterOperator.EQUAL, new EqualSpecificationConverter<>());
-        specifications.put(FilterOperator.NOT_EQUAL, new NotEqualSpecificationConverter<>());
-        specifications.put(FilterOperator.CONTAINS, new ContainsSpecificationConverter<>());
-        specifications.put(FilterOperator.NOT_CONTAINS, new NotEqualSpecificationConverter<>());
-        specifications.put(FilterOperator.LT, new LowerThanSpecificationConverter<>());
-        specifications.put(FilterOperator.GT, new GreaterThanSpecificationConverter<>());
+        Reflections reflections = new Reflections("com.pablodev.shared.infrastructure.criteria.converter");
+        Set<Class<?>> classes = reflections.getTypesAnnotatedWith(FilterConverter.class);
+
+        try {
+            for  (Class<?> clazz : classes) {
+                FilterOperator value = clazz.getAnnotation(FilterConverter.class).value();
+                SpecificationConverter<T> converter = (SpecificationConverter<T>) clazz.getDeclaredConstructor().newInstance();
+                specifications.put(value, converter);
+            }
+        }
+        catch (Exception e) {
+            throw new CriteriaConverterException(e.getMessage());
+        }
+
     }
 
-    public Specification<T> getSpecification(Filter filter) {
+    private Specification<T> getSpecification(Filter filter) {
         return specifications.get(filter.getOperator()).convert(filter);
     }
 

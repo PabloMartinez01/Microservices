@@ -9,10 +9,6 @@ public class Order {
     private final OrderBy orderBy;
     private final OrderType orderType;
 
-    public static Order of(String field, OrderType orderType) {
-        return new Order(new OrderBy(field), orderType);
-    }
-
     public static Order ascending(String field) {
         return new Order(new OrderBy(field), OrderType.ASCENDING);
     }

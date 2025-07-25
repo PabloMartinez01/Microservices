@@ -6,13 +6,12 @@ import com.pablodev.shared.domain.criteria.FilterOperator;
 import com.pablodev.shared.domain.criteria.Order;
 import com.pablodev.shared.infrastructure.criteria.converter.FilterConverter;
 import com.pablodev.shared.infrastructure.criteria.converter.SpecificationConverter;
-import org.reflections.Reflections;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
-
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
+import org.reflections.Reflections;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 
 
 public class CriteriaConverter<T> {
@@ -28,13 +27,13 @@ public class CriteriaConverter<T> {
         Set<Class<?>> classes = reflections.getTypesAnnotatedWith(FilterConverter.class);
 
         try {
-            for  (Class<?> clazz : classes) {
+            for (Class<?> clazz : classes) {
                 FilterOperator value = clazz.getAnnotation(FilterConverter.class).value();
-                SpecificationConverter<T> converter = (SpecificationConverter<T>) clazz.getDeclaredConstructor().newInstance();
+                SpecificationConverter<T> converter = (SpecificationConverter<T>) clazz.getDeclaredConstructor()
+                        .newInstance();
                 specifications.put(value, converter);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new CriteriaConverterException(e.getMessage());
         }
 
@@ -55,7 +54,7 @@ public class CriteriaConverter<T> {
     public Sort toSort(Criteria criteria) {
 
         Order order = criteria.order();
-        if (order.hasOrder()){
+        if (order.hasOrder()) {
             return Sort.unsorted();
         }
 

@@ -1,6 +1,6 @@
 package com.pablodev.organizationservice.organization.infrastructure.persistence.entities;
 
-import com.pablodev.organizationservice.organization.domain.*;
+import com.pablodev.organizationservice.organization.domain.Organization;
 import org.springframework.stereotype.Component;
 
 @Component

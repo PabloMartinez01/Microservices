@@ -9,7 +9,7 @@ public class NotEqualSpecificationConverter<T> implements SpecificationConverter
 
     @Override
     public Specification<T> convert(Filter filter) {
-        return  (root, _, cb) ->
+        return (root, _, cb) ->
                 cb.notEqual(root.get(filter.getField()), filter.getValue());
     }
 }

@@ -10,4 +10,6 @@ public record CreateOrganizationCommand(
         String city,
         String state,
         String country)
-        implements Command { }
+        implements Command {
+
+}

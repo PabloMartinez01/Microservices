@@ -7,7 +7,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class FindOrganizationQueryHandler implements QueryHandler<FindOrganizationQuery, OrganizationResponse> {
+public class FindOrganizationQueryHandler implements
+        QueryHandler<FindOrganizationQuery, OrganizationResponse> {
 
     private final OrganizationFinder organizationFinder;
 

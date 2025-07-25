@@ -16,15 +16,12 @@ public class InMemoryCommandBus implements CommandBus {
     @Override
     @SuppressWarnings({"unchecked", "rawtypes"})
     public void dispatch(Command command) {
-
         try {
             CommandHandler commandHandler = commandRegistry.getCommandHandler(command.getClass());
             commandHandler.handle(command);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new CommandHandlerExecutionException(e.getMessage(), e);
         }
-
     }
 
 }

@@ -1,6 +1,7 @@
 package com.pablodev.organizationservice.organization.application.create;
 
-import com.pablodev.organizationservice.organization.domain.*;
+import com.pablodev.organizationservice.organization.domain.Organization;
+import com.pablodev.organizationservice.organization.domain.OrganizationRepository;
 import com.pablodev.organizationservice.organization.domain.exception.OrganizationAlreadyExistsException;
 import com.pablodev.shared.domain.criteria.Criteria;
 import com.pablodev.shared.domain.criteria.Filter;
@@ -16,17 +17,19 @@ public class OrganizationCreator {
 
     private final OrganizationRepository repository;
 
-    public void create(String id,
-                       String name,
-                       String type,
-                       String street,
-                       String city,
-                       String state,
-                       String country) {
+    public void create(
+            String id,
+            String name,
+            String type,
+            String street,
+            String city,
+            String state,
+            String country) {
 
         ensureOrganizationNameNotExist(name);
 
-        Organization organization = Organization.create(id, name, type, street, city, state, country);
+        Organization organization = Organization.create(id, name, type, street, city, state,
+                country);
         repository.save(organization);
     }
 

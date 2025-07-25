@@ -1,6 +1,7 @@
 package com.pablodev.shared.domain.criteria;
 
 public class Filter {
+
     private final FilterField field;
     private final FilterOperator operator;
     private final FilterValue value;
@@ -32,7 +33,8 @@ public class Filter {
     }
 
     public static Filter notContains(String field, String value) {
-        return new Filter(new FilterField(field), FilterOperator.NOT_CONTAINS, new FilterValue(value));
+        return new Filter(new FilterField(field), FilterOperator.NOT_CONTAINS,
+                new FilterValue(value));
     }
 
     public String getField() {

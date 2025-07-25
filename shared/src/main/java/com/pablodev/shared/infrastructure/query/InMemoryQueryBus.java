@@ -1,6 +1,10 @@
 package com.pablodev.shared.infrastructure.query;
 
-import com.pablodev.shared.domain.query.*;
+import com.pablodev.shared.domain.query.Query;
+import com.pablodev.shared.domain.query.QueryBus;
+import com.pablodev.shared.domain.query.QueryHandler;
+import com.pablodev.shared.domain.query.QueryHandlerExecutionException;
+import com.pablodev.shared.domain.query.QueryResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

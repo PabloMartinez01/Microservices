@@ -7,5 +7,7 @@ public record CreateOrganizationRequest(
         @NotBlank(message = "Name can not be blank") String name,
         @NotBlank(message = "Type can not be blank") String type,
         @NotNull(message = "Address can not be null") CreateOrganizationAddressRequest address
-){ }
+) {
+
+}
 

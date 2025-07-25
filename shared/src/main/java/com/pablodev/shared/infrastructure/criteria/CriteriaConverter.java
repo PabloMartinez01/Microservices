@@ -1,17 +1,19 @@
 package com.pablodev.shared.infrastructure.criteria;
 
-import com.pablodev.shared.domain.criteria.*;
-import com.pablodev.shared.infrastructure.criteria.converter.*;
+import com.pablodev.shared.domain.criteria.Criteria;
+import com.pablodev.shared.domain.criteria.Filter;
+import com.pablodev.shared.domain.criteria.FilterOperator;
+import com.pablodev.shared.domain.criteria.Order;
+import com.pablodev.shared.infrastructure.criteria.converter.FilterConverter;
+import com.pablodev.shared.infrastructure.criteria.converter.SpecificationConverter;
 import org.reflections.Reflections;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 
 
 public class CriteriaConverter<T> {

@@ -1,12 +1,15 @@
 package com.pablodev.shared.domain.criteria;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 public class Filter {
     private final FilterField field;
     private final FilterOperator operator;
     private final FilterValue value;
+
+    private Filter(FilterField field, FilterOperator operator, FilterValue value) {
+        this.field = field;
+        this.operator = operator;
+        this.value = value;
+    }
 
     public static Filter equals(String field, String value) {
         return new Filter(new FilterField(field), FilterOperator.EQUAL, new FilterValue(value));

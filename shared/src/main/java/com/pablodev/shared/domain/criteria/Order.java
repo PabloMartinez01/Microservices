@@ -1,13 +1,14 @@
 package com.pablodev.shared.domain.criteria;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-@AllArgsConstructor
 public class Order {
 
     private final OrderBy orderBy;
     private final OrderType orderType;
+
+    private Order(OrderBy orderBy, OrderType orderType) {
+        this.orderBy = orderBy;
+        this.orderType = orderType;
+    }
 
     public static Order ascending(String field) {
         return new Order(new OrderBy(field), OrderType.ASCENDING);

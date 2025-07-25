@@ -11,20 +11,20 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.EnumMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 
 public class CriteriaConverter<T> {
 
+    public static final String CONVERTER_SCAN_PACKAGES = "com.pablodev.shared.infrastructure.criteria.converter";
     private final Map<FilterOperator, SpecificationConverter<T>> specifications;
 
     @SuppressWarnings("unchecked")
     public CriteriaConverter() {
 
         specifications = new EnumMap<>(FilterOperator.class);
-        Reflections reflections = new Reflections("com.pablodev.shared.infrastructure.criteria.converter");
+        Reflections reflections = new Reflections(CONVERTER_SCAN_PACKAGES);
         Set<Class<?>> classes = reflections.getTypesAnnotatedWith(FilterConverter.class);
 
         try {
@@ -45,18 +45,19 @@ public class CriteriaConverter<T> {
     }
 
     public Specification<T> toSpecification(Criteria criteria) {
-        List<Specification<T>> specificationStream = criteria.getFilters()
-                .stream()
-                .map(this::getSpecification)
-                .toList();
-        return Specification.allOf(specificationStream);
+        return Specification.allOf(
+                criteria.filters().stream()
+                        .map(this::getSpecification)
+                        .toList()
+        );
     }
 
     public Sort toSort(Criteria criteria) {
-        Order order = criteria.getOrder();
 
-        if (order.hasOrder())
+        Order order = criteria.order();
+        if (order.hasOrder()){
             return Sort.unsorted();
+        }
 
         Sort.Direction direction = order.isAscending() ? Sort.Direction.ASC : Sort.Direction.DESC;
         return Sort.by(direction, order.getOrderBy());

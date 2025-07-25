@@ -34,8 +34,4 @@ public class Order {
         return orderBy.getValue();
     }
 
-    public OrderType getOrderType() {
-        return orderType;
-    }
-
 }

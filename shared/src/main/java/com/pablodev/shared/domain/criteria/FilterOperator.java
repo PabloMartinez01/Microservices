@@ -1,7 +1,6 @@
 package com.pablodev.shared.domain.criteria;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 @AllArgsConstructor
 public enum FilterOperator {
@@ -24,10 +23,6 @@ public enum FilterOperator {
             case "NOT_CONTAINS" -> FilterOperator.NOT_CONTAINS;
             default -> null;
         };
-    }
-
-    public boolean isPositive() {
-        return this != NOT_EQUAL && this != NOT_CONTAINS;
     }
 
     public String value() {

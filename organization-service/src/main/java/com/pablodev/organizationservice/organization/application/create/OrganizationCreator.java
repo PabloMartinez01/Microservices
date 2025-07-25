@@ -16,12 +16,17 @@ public class OrganizationCreator {
 
     private final OrganizationRepository repository;
 
-    public void create(CreateOrganizationCommand command) {
+    public void create(String id,
+                       String name,
+                       String type,
+                       String street,
+                       String city,
+                       String state,
+                       String country) {
 
-        Organization organization = createOrganization(command);
+        ensureOrganizationNameNotExist(name);
 
-        ensureOrganizationNameNotExist(command.name());
-
+        Organization organization = Organization.create(id, name, type, street, city, state, country);
         repository.save(organization);
     }
 
@@ -32,15 +37,5 @@ public class OrganizationCreator {
         }
     }
 
-    private Organization createOrganization(CreateOrganizationCommand command) {
-        return Organization.create(
-                command.id(),
-                command.name(),
-                command.type(),
-                command.street(),
-                command.city(),
-                command.state(),
-                command.country()
-        );
-    }
+
 }

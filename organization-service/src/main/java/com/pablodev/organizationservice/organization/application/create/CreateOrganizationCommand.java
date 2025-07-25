@@ -1,5 +1,7 @@
 package com.pablodev.organizationservice.organization.application.create;
 
+import com.pablodev.shared.domain.command.Command;
+
 public record CreateOrganizationCommand(
         String id,
         String name,
@@ -7,5 +9,5 @@ public record CreateOrganizationCommand(
         String street,
         String city,
         String state,
-        String country
-) {}
+        String country)
+        implements Command { }

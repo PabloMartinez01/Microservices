@@ -10,7 +10,10 @@ import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {
+        "com.pablodev.organizationservice",
+        "com.pablodev.shared"
+})
 public class OrganizationServiceApplication {
 
     public static void main(String[] args) {

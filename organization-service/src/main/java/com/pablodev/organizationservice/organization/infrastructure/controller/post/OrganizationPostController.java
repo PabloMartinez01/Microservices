@@ -2,6 +2,9 @@ package com.pablodev.organizationservice.organization.infrastructure.controller.
 
 import com.pablodev.organizationservice.organization.application.create.CreateOrganizationCommand;
 import com.pablodev.organizationservice.organization.application.create.OrganizationCreator;
+import com.pablodev.shared.domain.command.Command;
+import com.pablodev.shared.domain.command.CommandBus;
+import com.pablodev.shared.infrastructure.command.InMemoryCommandBus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +20,7 @@ import java.util.UUID;
 @RequestMapping("/organization")
 public class OrganizationPostController {
 
-    private final OrganizationCreator creator;
+    private final CommandBus commandBus;
 
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody CreateOrganizationRequest httpRequest) {
@@ -32,7 +35,7 @@ public class OrganizationPostController {
                 httpRequest.address().country()
         );
 
-        creator.create(applicationRequest);
+        commandBus.dispatch(applicationRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

@@ -1,11 +1,13 @@
 package com.pablodev.organizationservice.organization.infrastructure.persistence;
 
-import com.pablodev.organizationservice.organization.domain.*;
+import com.pablodev.organizationservice.organization.domain.Organization;
+import com.pablodev.organizationservice.organization.domain.OrganizationId;
+import com.pablodev.organizationservice.organization.domain.OrganizationName;
+import com.pablodev.organizationservice.organization.domain.OrganizationRepository;
 import com.pablodev.organizationservice.organization.infrastructure.persistence.entities.OrganizationEntity;
 import com.pablodev.organizationservice.organization.infrastructure.persistence.entities.OrganizationEntityMapper;
 import com.pablodev.shared.domain.criteria.Criteria;
 import com.pablodev.shared.infrastructure.criteria.CriteriaConverter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;

@@ -1,10 +1,7 @@
 package com.pablodev.organizationservice.organization.infrastructure.controller.post;
 
 import com.pablodev.organizationservice.organization.application.create.CreateOrganizationCommand;
-import com.pablodev.organizationservice.organization.application.create.OrganizationCreator;
-import com.pablodev.shared.domain.command.Command;
 import com.pablodev.shared.domain.command.CommandBus;
-import com.pablodev.shared.infrastructure.command.InMemoryCommandBus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

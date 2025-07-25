@@ -26,11 +26,6 @@ public class QueryRegistry {
         constructQueryHandlersMap();
     }
 
-    @PostConstruct
-    public void postConstruct() {
-        System.out.println(queryHandlers);
-    }
-
     public QueryHandler<? extends Query<?>, ? extends QueryResponse> getQueryHandler(Class<? extends Query> queryClass) {
         return Optional.ofNullable(queryHandlers.get(queryClass))
                 .orElseThrow(() -> new QueryNotRegisteredException(queryClass));

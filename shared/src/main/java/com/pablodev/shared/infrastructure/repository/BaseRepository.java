@@ -1,6 +1,5 @@
 package com.pablodev.shared.infrastructure.repository;
 
-import com.pablodev.shared.infrastructure.criteria.CriteriaConverter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;

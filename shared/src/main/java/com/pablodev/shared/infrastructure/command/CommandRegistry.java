@@ -3,7 +3,6 @@ package com.pablodev.shared.infrastructure.command;
 import com.pablodev.shared.domain.command.Command;
 import com.pablodev.shared.domain.command.CommandHandler;
 import com.pablodev.shared.domain.command.CommandNotRegisteredException;
-import jakarta.annotation.PostConstruct;
 import org.reflections.Reflections;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;

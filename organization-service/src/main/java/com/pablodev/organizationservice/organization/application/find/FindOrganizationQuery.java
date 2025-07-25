@@ -1,3 +1,6 @@
 package com.pablodev.organizationservice.organization.application.find;
 
-public record FindOrganizationQuery(String id) {}
+import com.pablodev.organizationservice.organization.application.OrganizationResponse;
+import com.pablodev.shared.domain.query.Query;
+
+public record FindOrganizationQuery(String id) implements Query<OrganizationResponse> {}

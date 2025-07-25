@@ -2,6 +2,7 @@ package com.pablodev.shared.infrastructure.command;
 
 import com.pablodev.shared.domain.command.Command;
 import com.pablodev.shared.domain.command.CommandHandler;
+import com.pablodev.shared.domain.command.CommandNotRegisteredException;
 import jakarta.annotation.PostConstruct;
 import org.reflections.Reflections;
 import org.springframework.context.ApplicationContext;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class CommandRegistry {
@@ -23,14 +25,10 @@ public class CommandRegistry {
         constructCommandHandlersMap();
     }
 
-    @PostConstruct
-    public void postConstruct() {
-        System.out.println(commandHandlers);
-    }
-
 
     public CommandHandler<?> getCommandHandler(Class<? extends Command> commandClass) {
-        return commandHandlers.get(commandClass);
+        return Optional.ofNullable(commandHandlers.get(commandClass))
+                .orElseThrow(() -> new CommandNotRegisteredException(commandClass));
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})

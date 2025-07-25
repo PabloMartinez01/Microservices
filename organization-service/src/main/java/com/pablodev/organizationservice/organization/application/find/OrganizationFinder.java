@@ -15,11 +15,10 @@ public class OrganizationFinder {
 
     private final OrganizationRepository repository;
 
-    public OrganizationResponse find(FindOrganizationQuery query) {
-        OrganizationId id = new OrganizationId(query.id());
-        return repository.findById(id)
+    public OrganizationResponse find(String id) {
+        return repository.findById(new OrganizationId(id))
                 .map(OrganizationResponse::fromAggregate)
-                .orElseThrow(() -> new OrganizationDoesNotExistException(id.getValue()));
+                .orElseThrow(() -> new OrganizationDoesNotExistException(id));
 
     }
 

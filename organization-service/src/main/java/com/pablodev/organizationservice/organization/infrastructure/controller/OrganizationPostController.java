@@ -1,6 +1,7 @@
-package com.pablodev.organizationservice.organization.infrastructure.controller.post;
+package com.pablodev.organizationservice.organization.infrastructure.controller;
 
 import com.pablodev.organizationservice.organization.application.create.CreateOrganizationCommand;
+import com.pablodev.organizationservice.organization.infrastructure.controller.dto.CreateOrganizationRequest;
 import com.pablodev.shared.domain.command.CommandBus;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;

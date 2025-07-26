@@ -1,7 +1,9 @@
-package com.pablodev.organizationservice.organization.infrastructure.controller.get;
+package com.pablodev.organizationservice.organization.infrastructure.controller;
 
 import com.pablodev.organizationservice.organization.application.OrganizationResponse;
+import com.pablodev.organizationservice.organization.application.OrganizationsResponse;
 import com.pablodev.organizationservice.organization.application.find.FindOrganizationQuery;
+import com.pablodev.organizationservice.organization.application.findAll.FindAllOrganizationsQuery;
 import com.pablodev.shared.domain.query.QueryBus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,12 @@ public class OrganizationGetController {
     public ResponseEntity<OrganizationResponse> find(@PathVariable String id) {
         FindOrganizationQuery query = new FindOrganizationQuery(id);
         OrganizationResponse response = queryBus.ask(query);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<OrganizationsResponse> findAll() {
+        OrganizationsResponse response = queryBus.ask(new FindAllOrganizationsQuery());
         return ResponseEntity.ok(response);
     }
 

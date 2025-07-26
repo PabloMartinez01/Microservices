@@ -3,7 +3,7 @@ package com.pablodev.organizationservice.organization.infrastructure.controller;
 import com.pablodev.organizationservice.organization.application.OrganizationResponse;
 import com.pablodev.organizationservice.organization.application.OrganizationsResponse;
 import com.pablodev.organizationservice.organization.application.find.FindOrganizationQuery;
-import com.pablodev.organizationservice.organization.application.findAll.FindAllOrganizationsQuery;
+import com.pablodev.organizationservice.organization.application.find_all.FindAllOrganizationsQuery;
 import com.pablodev.shared.domain.query.QueryBus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

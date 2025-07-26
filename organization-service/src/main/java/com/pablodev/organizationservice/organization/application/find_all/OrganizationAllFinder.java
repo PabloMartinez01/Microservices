@@ -1,4 +1,4 @@
-package com.pablodev.organizationservice.organization.application.findAll;
+package com.pablodev.organizationservice.organization.application.find_all;
 
 import com.pablodev.organizationservice.organization.application.OrganizationResponse;
 import com.pablodev.organizationservice.organization.application.OrganizationsResponse;

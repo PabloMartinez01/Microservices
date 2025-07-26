@@ -1,4 +1,4 @@
-package com.pablodev.organizationservice.organization.infrastructure.controller.dto;
+package com.pablodev.organizationservice.organization.infrastructure.controller.dto.create;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

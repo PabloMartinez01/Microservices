@@ -29,6 +29,7 @@ public class OrganizationUpdater {
 
         Organization organization = Organization.create(id, name, type, street, city, state,
                 country);
+        
         organizationRepository.save(organization);
     }
 

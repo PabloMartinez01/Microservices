@@ -10,8 +10,6 @@ public interface OrganizationRepository {
 
     Optional<Organization> findById(OrganizationId id);
 
-    Optional<Organization> findByName(OrganizationName name);
-
     List<Organization> findAll();
 
     List<Organization> search(Criteria criteria);

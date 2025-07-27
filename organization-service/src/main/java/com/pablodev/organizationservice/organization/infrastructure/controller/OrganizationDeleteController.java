@@ -17,7 +17,7 @@ public class OrganizationDeleteController {
     private final CommandBus commandBus;
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteOrganization(@PathVariable String id) {
+    public ResponseEntity<Void> delete(@PathVariable String id) {
         commandBus.dispatch(new DeleteOrganizationCommand(id));
         return ResponseEntity.ok().build();
     }

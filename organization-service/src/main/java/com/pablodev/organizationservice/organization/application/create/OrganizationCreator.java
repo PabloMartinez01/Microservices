@@ -30,6 +30,7 @@ public class OrganizationCreator {
 
         Organization organization = Organization.create(id, name, type, street, city, state,
                 country);
+        
         repository.save(organization);
     }
 

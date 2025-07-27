@@ -20,19 +20,19 @@ public class OrganizationPostController {
     private final CommandBus commandBus;
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody CreateOrganizationRequest httpRequest) {
+    public ResponseEntity<Void> create(@RequestBody CreateOrganizationRequest request) {
 
-        CreateOrganizationCommand applicationRequest = new CreateOrganizationCommand(
+        CreateOrganizationCommand command = new CreateOrganizationCommand(
                 UUID.randomUUID().toString(),
-                httpRequest.name(),
-                httpRequest.type(),
-                httpRequest.address().street(),
-                httpRequest.address().city(),
-                httpRequest.address().state(),
-                httpRequest.address().country()
+                request.name(),
+                request.type(),
+                request.address().street(),
+                request.address().city(),
+                request.address().state(),
+                request.address().country()
         );
 
-        commandBus.dispatch(applicationRequest);
+        commandBus.dispatch(command);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

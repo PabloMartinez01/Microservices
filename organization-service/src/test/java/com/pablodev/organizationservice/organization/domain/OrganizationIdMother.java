@@ -8,4 +8,8 @@ public class OrganizationIdMother {
         return new OrganizationId(UUID.randomUUID().toString());
     }
 
+    public static OrganizationId create(String id) {
+        return new OrganizationId(id);
+    }
+
 }

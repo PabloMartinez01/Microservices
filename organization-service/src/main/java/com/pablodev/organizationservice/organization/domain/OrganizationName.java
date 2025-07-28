@@ -2,9 +2,10 @@ package com.pablodev.organizationservice.organization.domain;
 
 import com.pablodev.organizationservice.organization.domain.exception.OrganizationIllegalArgumentException;
 import com.pablodev.shared.domain.ValueObject;
-import lombok.Getter;
+import lombok.EqualsAndHashCode;
 
-@Getter
+
+@EqualsAndHashCode
 public class OrganizationName extends ValueObject<String> {
 
     public OrganizationName(String value) {

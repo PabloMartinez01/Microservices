@@ -8,4 +8,8 @@ public class OrganizationNameMother {
         return new OrganizationName(Faker.instance().company().name());
     }
 
+    public static OrganizationName create(String name) {
+        return new OrganizationName(name);
+    }
+
 }

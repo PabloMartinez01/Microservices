@@ -1,10 +1,11 @@
 package com.pablodev.organizationservice.organization.application.create;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import com.pablodev.organizationservice.organization.domain.Organization;
+import com.pablodev.organizationservice.organization.domain.OrganizationMother;
 import com.pablodev.organizationservice.organization.domain.OrganizationRepository;
 import com.pablodev.organizationservice.organization.domain.exception.OrganizationIllegalArgumentException;
 import com.pablodev.organizationservice.organization.domain.exception.UnknownOrganizationTypeException;
@@ -24,17 +25,18 @@ class OrganizationCreatorTest {
     private OrganizationCreator organizationCreator;
 
     @Test
-    void should_create_organization() {
+    void givenValidCreateOrganizationCommand_whenCreateOrganization_thenCreateOrganization() {
 
         CreateOrganizationCommand command = CreateOrganizationCommandMother.random();
+        Organization expectedOrganization = createExpectedOrganization(command);
 
         organizationCreator.create(command);
 
-        verify(organizationRepository, times(1)).save(any());
+        verify(organizationRepository, times(1)).save(expectedOrganization);
     }
 
     @Test
-    void should_throw_exception_when_id_invalid() {
+    void givenInvalidId_whenCreateOrganization_thenThrowException() {
 
         CreateOrganizationCommand command = CreateOrganizationCommandMother.withInvalidId();
 
@@ -44,7 +46,7 @@ class OrganizationCreatorTest {
     }
 
     @Test
-    void should_throw_exception_when_name_invalid() {
+    void givenInvalidName_whenCreateOrganization_thenThrowException() {
 
         CreateOrganizationCommand command = CreateOrganizationCommandMother.withInvalidName();
 
@@ -53,7 +55,7 @@ class OrganizationCreatorTest {
     }
 
     @Test
-    void should_throw_exception_when_type_invalid() {
+    void givenInvalidType_whenCreateOrganization_thenThrowException() {
 
         CreateOrganizationCommand command = CreateOrganizationCommandMother.withInvalidType();
 
@@ -62,7 +64,7 @@ class OrganizationCreatorTest {
     }
 
     @Test
-    void should_throw_exception_when_street_invalid() {
+    void givenInvalidStreet_whenCreateOrganization_thenThrowException() {
 
         CreateOrganizationCommand command = CreateOrganizationCommandMother.withInvalidStreet();
 
@@ -71,7 +73,17 @@ class OrganizationCreatorTest {
     }
 
     @Test
-    void should_throw_exception_when_state_invalid() {
+    void givenInvalidCity_whenCreateOrganization_thenThrowException() {
+
+        CreateOrganizationCommand command = CreateOrganizationCommandMother.withInvalidCity();
+
+        assertThrows(OrganizationIllegalArgumentException.class,
+                () -> organizationCreator.create(command));
+    }
+
+
+    @Test
+    void givenInvalidState_whenCreateOrganization_thenThrowException() {
 
         CreateOrganizationCommand command = CreateOrganizationCommandMother.withInvalidState();
 
@@ -80,12 +92,24 @@ class OrganizationCreatorTest {
     }
 
     @Test
-    void should_throw_exception_when_country_invalid() {
+    void givenInvalidCountry_whenCreateOrganization_thenThrowException() {
 
         CreateOrganizationCommand command = CreateOrganizationCommandMother.withInvalidCountry();
 
         assertThrows(OrganizationIllegalArgumentException.class,
                 () -> organizationCreator.create(command));
+    }
+
+    private Organization createExpectedOrganization(CreateOrganizationCommand command) {
+        return OrganizationMother.create(
+                command.id(),
+                command.name(),
+                command.type(),
+                command.street(),
+                command.city(),
+                command.state(),
+                command.country()
+        );
     }
 
 

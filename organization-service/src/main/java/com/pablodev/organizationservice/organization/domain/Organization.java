@@ -1,8 +1,9 @@
 package com.pablodev.organizationservice.organization.domain;
 
 import com.pablodev.shared.domain.AggregateRoot;
+import lombok.EqualsAndHashCode;
 
-
+@EqualsAndHashCode(callSuper = false)
 public class Organization extends AggregateRoot {
 
     private final OrganizationId id;

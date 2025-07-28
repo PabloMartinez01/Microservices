@@ -1,5 +1,8 @@
 package com.pablodev.organizationservice.organization.domain;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public class OrganizationAddress {
 
     private final AddressStreet street;

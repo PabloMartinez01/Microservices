@@ -8,4 +8,8 @@ public class AddressStreetMother {
         return new AddressStreet(Faker.instance().address().streetName());
     }
 
+    public static AddressStreet create(String street) {
+        return new AddressStreet(street);
+    }
+
 }

@@ -2,11 +2,13 @@ package com.pablodev.shared.domain;
 
 import java.io.Serializable;
 import java.util.UUID;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Identifier implements Serializable {
 
     protected String value;

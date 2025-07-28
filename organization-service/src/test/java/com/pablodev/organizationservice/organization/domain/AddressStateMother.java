@@ -8,4 +8,9 @@ public class AddressStateMother {
         return new AddressState(Faker.instance().address().state());
     }
 
+    public static AddressState create(String state) {
+        return new AddressState(state);
+    }
+
 }
+

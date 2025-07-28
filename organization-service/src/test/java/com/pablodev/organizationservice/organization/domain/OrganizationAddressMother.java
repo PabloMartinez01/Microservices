@@ -11,4 +11,14 @@ public class OrganizationAddressMother {
         );
     }
 
+    public static OrganizationAddress create(String street, String city, String state,
+            String country) {
+        return new OrganizationAddress(
+                AddressStreetMother.create(street).getValue(),
+                AddressCityMother.create(city).getValue(),
+                AddressStateMother.create(state).getValue(),
+                AddressCountryMother.create(country).getValue()
+        );
+    }
+
 }

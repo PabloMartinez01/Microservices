@@ -2,9 +2,9 @@ package com.pablodev.organizationservice.organization.domain;
 
 import com.pablodev.organizationservice.organization.domain.exception.OrganizationIllegalArgumentException;
 import com.pablodev.shared.domain.ValueObject;
-import lombok.Getter;
+import lombok.EqualsAndHashCode;
 
-@Getter
+@EqualsAndHashCode(callSuper = true)
 public class AddressStreet extends ValueObject<String> {
 
     public AddressStreet(String value) {

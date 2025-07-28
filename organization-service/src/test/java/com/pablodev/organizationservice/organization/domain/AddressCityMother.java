@@ -8,4 +8,7 @@ public class AddressCityMother {
         return new AddressCity(Faker.instance().address().cityName());
     }
 
+    public static AddressCity create(String city) {
+        return new AddressCity(city);
+    }
 }

@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 public class FindAllOrganizationsQueryHandler implements
         QueryHandler<FindAllOrganizationsQuery, OrganizationsResponse> {
 
-    private final OrganizationAllFinder organizationAllFinder;
+    private final OrganizationFinderAll organizationFinderAll;
 
     @Override
     public OrganizationsResponse handle(FindAllOrganizationsQuery query) {
-        return organizationAllFinder.findAll();
+        return organizationFinderAll.findAll();
     }
 
 }

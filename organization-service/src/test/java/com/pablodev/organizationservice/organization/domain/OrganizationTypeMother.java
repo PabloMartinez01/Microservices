@@ -8,4 +8,8 @@ public class OrganizationTypeMother {
         return OrganizationType.from(Faker.instance().options().option("COMPANY", "INDIVIDUAL"));
     }
 
+    public static OrganizationType create(String type) {
+        return OrganizationType.from(type);
+    }
+
 }

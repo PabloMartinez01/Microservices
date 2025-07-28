@@ -2,7 +2,9 @@ package com.pablodev.organizationservice.organization.domain;
 
 import com.pablodev.organizationservice.organization.domain.exception.OrganizationIllegalArgumentException;
 import com.pablodev.shared.domain.ValueObject;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 public class AddressState extends ValueObject<String> {
 
     public AddressState(String value) {

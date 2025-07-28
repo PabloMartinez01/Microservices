@@ -99,6 +99,11 @@
       <groupId>com.github.javafaker</groupId>
       <version>1.0.2</version>
     </dependency>
+    <dependency>
+      <artifactId>reflections</artifactId>
+      <groupId>org.reflections</groupId>
+      <version>0.10.2</version>
+    </dependency>
   </dependencies>
   <description>OrganizationService project</description>
   <groupId>com.pablodev</groupId>

@@ -54,7 +54,7 @@ public class CriteriaConverter<T> {
     public Sort toSort(Criteria criteria) {
 
         Order order = criteria.order();
-        if (order.hasOrder()) {
+        if (!order.hasOrder()) {
             return Sort.unsorted();
         }
 

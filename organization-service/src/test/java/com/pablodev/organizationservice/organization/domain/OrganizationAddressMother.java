@@ -2,7 +2,8 @@ package com.pablodev.organizationservice.organization.domain;
 
 public class OrganizationAddressMother {
 
-    private static OrganizationAddress random() {
+    public static OrganizationAddress random() {
+        OrganizationBuilder.withRandomValues();
         return new OrganizationAddress(
                 AddressStreetMother.random().getValue(),
                 AddressCityMother.random().getValue(),

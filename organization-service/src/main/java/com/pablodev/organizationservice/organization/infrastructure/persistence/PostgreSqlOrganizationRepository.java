@@ -2,7 +2,6 @@ package com.pablodev.organizationservice.organization.infrastructure.persistence
 
 import com.pablodev.organizationservice.organization.domain.Organization;
 import com.pablodev.organizationservice.organization.domain.OrganizationId;
-import com.pablodev.organizationservice.organization.domain.OrganizationName;
 import com.pablodev.organizationservice.organization.domain.OrganizationRepository;
 import com.pablodev.organizationservice.organization.infrastructure.persistence.entities.OrganizationEntity;
 import com.pablodev.organizationservice.organization.infrastructure.persistence.entities.OrganizationEntityMapper;
@@ -40,11 +39,6 @@ public class PostgreSqlOrganizationRepository implements OrganizationRepository 
                 .map(organizationMapper::toAggregate);
     }
 
-    @Override
-    public Optional<Organization> findByName(OrganizationName name) {
-        return organizationRepository.findByName(name.getValue())
-                .map(organizationMapper::toAggregate);
-    }
 
     @Override
     public List<Organization> findAll() {

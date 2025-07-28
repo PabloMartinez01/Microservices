@@ -15,22 +15,25 @@ public class OrganizationUpdater {
 
     private final OrganizationRepository organizationRepository;
 
-    public void update(
-            String id,
-            String name,
-            String type,
-            String street,
-            String city,
-            String state,
-            String country
-    ) {
+    public void update(UpdateOrganizationCommand command) {
 
-        ensureOrganizationExists(id);
+        ensureOrganizationExists(command.id());
 
-        Organization organization = Organization.create(id, name, type, street, city, state,
-                country);
-        
+        Organization organization = createOrganization(command);
+
         organizationRepository.save(organization);
+    }
+
+    private Organization createOrganization(UpdateOrganizationCommand command) {
+        return Organization.create(
+                command.id(),
+                command.name(),
+                command.type(),
+                command.street(),
+                command.city(),
+                command.state(),
+                command.country()
+        );
     }
 
     private void ensureOrganizationExists(String id) {

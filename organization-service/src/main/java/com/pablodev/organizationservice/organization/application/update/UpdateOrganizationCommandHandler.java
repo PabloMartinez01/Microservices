@@ -12,15 +12,7 @@ public class UpdateOrganizationCommandHandler implements CommandHandler<UpdateOr
 
     @Override
     public void handle(UpdateOrganizationCommand command) {
-        organizationUpdater.update(
-                command.id(),
-                command.name(),
-                command.type(),
-                command.street(),
-                command.city(),
-                command.state(),
-                command.country()
-        );
+        organizationUpdater.update(command);
     }
-    
+
 }

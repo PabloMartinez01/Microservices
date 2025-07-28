@@ -12,15 +12,7 @@ public class CreateOrganizationCommandHandler implements CommandHandler<CreateOr
 
     @Override
     public void handle(CreateOrganizationCommand command) {
-        organizationCreator.create(
-                command.id(),
-                command.name(),
-                command.type(),
-                command.street(),
-                command.city(),
-                command.state(),
-                command.country()
-        );
+        organizationCreator.create(command);
     }
 
 

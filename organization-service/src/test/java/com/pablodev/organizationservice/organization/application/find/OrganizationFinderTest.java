@@ -28,13 +28,14 @@ class OrganizationFinderTest {
     void givenValidId_whenFindById_thenReturnOrganizationResponse() {
 
         Organization organization = OrganizationMother.random();
+        OrganizationId id = new OrganizationId(organization.getId());
+
         OrganizationResponse expectedResponse = OrganizationResponse.fromAggregate(
                 organization);
 
-        when(repository.findById(new OrganizationId(organization.getId())))
-                .thenReturn(Optional.of(organization));
+        when(repository.findById(id)).thenReturn(Optional.of(organization));
 
-        OrganizationResponse response = finder.find(organization.getId());
+        OrganizationResponse response = finder.find(id.getValue());
 
         assertThat(response).isEqualTo(expectedResponse);
 

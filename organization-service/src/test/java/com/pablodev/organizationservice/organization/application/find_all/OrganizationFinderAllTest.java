@@ -19,10 +19,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 public class OrganizationFinderAllTest {
 
     @Mock
-    private OrganizationRepository organizationRepository;
+    private OrganizationRepository repository;
 
     @InjectMocks
-    private OrganizationFinderAll organizationFinderAll;
+    private OrganizationFinderAll finderAll;
 
     @Test
     void givenNothing_whenFindAll_thenReturnAllOrganizations() {
@@ -30,9 +30,9 @@ public class OrganizationFinderAllTest {
         List<Organization> organizations = createOrganizations();
         OrganizationsResponse expectedResponse = createExpectedResponse(organizations);
 
-        when(organizationRepository.findAll()).thenReturn(organizations);
+        when(repository.findAll()).thenReturn(organizations);
 
-        OrganizationsResponse organizationsResponse = organizationFinderAll.findAll();
+        OrganizationsResponse organizationsResponse = finderAll.findAll();
 
         assertThat(expectedResponse).isEqualTo(organizationsResponse);
 

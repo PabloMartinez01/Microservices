@@ -22,10 +22,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class OrganizationUpdaterTest {
 
     @Mock
-    private OrganizationRepository organizationRepository;
+    private OrganizationRepository repository;
 
     @InjectMocks
-    private OrganizationUpdater organizationUpdater;
+    private OrganizationUpdater updater;
 
     @Test
     void givenExistentOrganization_whenUpdateOrganization_thenShouldUpdateOrganization() {
@@ -36,12 +36,12 @@ class OrganizationUpdaterTest {
 
         Organization expectedOrganization = createExpectedOrganization(command);
 
-        when(organizationRepository.findById(new OrganizationId(command.id())))
+        when(repository.findById(new OrganizationId(command.id())))
                 .thenReturn(Optional.of(existentOrganization));
 
-        organizationUpdater.update(command);
+        updater.update(command);
 
-        verify(organizationRepository, times(1)).save(expectedOrganization);
+        verify(repository, times(1)).save(expectedOrganization);
 
     }
 
@@ -50,10 +50,10 @@ class OrganizationUpdaterTest {
 
         UpdateOrganizationCommand command = UpdateOrganizationCommandMother.random();
 
-        when(organizationRepository.findById(any())).thenReturn(Optional.empty());
+        when(repository.findById(any())).thenReturn(Optional.empty());
 
         assertThrows(OrganizationDoesNotExistException.class,
-                () -> organizationUpdater.update(command));
+                () -> updater.update(command));
 
     }
 

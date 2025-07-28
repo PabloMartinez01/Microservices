@@ -19,10 +19,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class OrganizationFinderTest {
 
     @Mock
-    private OrganizationRepository organizationRepository;
+    private OrganizationRepository repository;
 
     @InjectMocks
-    private OrganizationFinder organizationFinder;
+    private OrganizationFinder finder;
 
     @Test
     void givenValidId_whenFindById_thenReturnOrganizationResponse() {
@@ -31,10 +31,10 @@ class OrganizationFinderTest {
         OrganizationResponse expectedResponse = OrganizationResponse.fromAggregate(
                 organization);
 
-        when(organizationRepository.findById(new OrganizationId(organization.getId())))
+        when(repository.findById(new OrganizationId(organization.getId())))
                 .thenReturn(Optional.of(organization));
 
-        OrganizationResponse response = organizationFinder.find(organization.getId());
+        OrganizationResponse response = finder.find(organization.getId());
 
         assertThat(response).isEqualTo(expectedResponse);
 

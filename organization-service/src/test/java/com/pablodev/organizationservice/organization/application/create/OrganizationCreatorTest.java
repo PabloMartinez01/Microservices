@@ -19,10 +19,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class OrganizationCreatorTest {
 
     @Mock
-    private OrganizationRepository organizationRepository;
+    private OrganizationRepository repository;
 
     @InjectMocks
-    private OrganizationCreator organizationCreator;
+    private OrganizationCreator creator;
 
     @Test
     void givenValidCreateOrganizationCommand_whenCreateOrganization_thenCreateOrganization() {
@@ -30,9 +30,9 @@ class OrganizationCreatorTest {
         CreateOrganizationCommand command = CreateOrganizationCommandMother.random();
         Organization expectedOrganization = createExpectedOrganization(command);
 
-        organizationCreator.create(command);
+        creator.create(command);
 
-        verify(organizationRepository, times(1)).save(expectedOrganization);
+        verify(repository, times(1)).save(expectedOrganization);
     }
 
     @Test
@@ -41,7 +41,7 @@ class OrganizationCreatorTest {
         CreateOrganizationCommand command = CreateOrganizationCommandMother.withInvalidId();
 
         assertThrows(IllegalArgumentException.class,
-                () -> organizationCreator.create(command));
+                () -> creator.create(command));
 
     }
 
@@ -51,7 +51,7 @@ class OrganizationCreatorTest {
         CreateOrganizationCommand command = CreateOrganizationCommandMother.withInvalidName();
 
         assertThrows(OrganizationIllegalArgumentException.class,
-                () -> organizationCreator.create(command));
+                () -> creator.create(command));
     }
 
     @Test
@@ -60,7 +60,7 @@ class OrganizationCreatorTest {
         CreateOrganizationCommand command = CreateOrganizationCommandMother.withInvalidType();
 
         assertThrows(UnknownOrganizationTypeException.class,
-                () -> organizationCreator.create(command));
+                () -> creator.create(command));
     }
 
     @Test
@@ -69,7 +69,7 @@ class OrganizationCreatorTest {
         CreateOrganizationCommand command = CreateOrganizationCommandMother.withInvalidStreet();
 
         assertThrows(OrganizationIllegalArgumentException.class,
-                () -> organizationCreator.create(command));
+                () -> creator.create(command));
     }
 
     @Test
@@ -78,7 +78,7 @@ class OrganizationCreatorTest {
         CreateOrganizationCommand command = CreateOrganizationCommandMother.withInvalidCity();
 
         assertThrows(OrganizationIllegalArgumentException.class,
-                () -> organizationCreator.create(command));
+                () -> creator.create(command));
     }
 
 
@@ -88,7 +88,7 @@ class OrganizationCreatorTest {
         CreateOrganizationCommand command = CreateOrganizationCommandMother.withInvalidState();
 
         assertThrows(OrganizationIllegalArgumentException.class,
-                () -> organizationCreator.create(command));
+                () -> creator.create(command));
     }
 
     @Test
@@ -97,7 +97,7 @@ class OrganizationCreatorTest {
         CreateOrganizationCommand command = CreateOrganizationCommandMother.withInvalidCountry();
 
         assertThrows(OrganizationIllegalArgumentException.class,
-                () -> organizationCreator.create(command));
+                () -> creator.create(command));
     }
 
     private Organization createExpectedOrganization(CreateOrganizationCommand command) {

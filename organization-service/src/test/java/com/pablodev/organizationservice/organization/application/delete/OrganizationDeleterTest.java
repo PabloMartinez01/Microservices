@@ -22,7 +22,7 @@ class OrganizationDeleterTest {
     private OrganizationRepository repository;
 
     @InjectMocks
-    private OrganizationDeleter organizationDeleter;
+    private OrganizationDeleter deleter;
 
     @Test
     void givenExistentId_whenDeleteOrganization_thenDeleteOrganization() {
@@ -32,7 +32,7 @@ class OrganizationDeleterTest {
 
         when(repository.findById(id)).thenReturn(Optional.of(existentOrganization));
 
-        organizationDeleter.delete(existentOrganization.getId());
+        deleter.delete(existentOrganization.getId());
 
         verify(repository, times(1)).deleteById(id);
 

@@ -32,8 +32,7 @@ public class PostgreSQLOrganizationRepositoryTest {
         Optional<Organization> response = repository.findById(
                 new OrganizationId(organization.getId()));
 
-        assertThat(response).isPresent();
-        assertThat(response).hasValue(organization);
+        assertThat(response).isPresent().hasValue(organization);
     }
 
     @Test

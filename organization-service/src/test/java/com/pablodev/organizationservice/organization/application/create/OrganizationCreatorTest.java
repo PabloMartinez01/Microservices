@@ -9,6 +9,7 @@ import com.pablodev.organizationservice.organization.domain.OrganizationMother;
 import com.pablodev.organizationservice.organization.domain.OrganizationRepository;
 import com.pablodev.organizationservice.organization.domain.exception.OrganizationIllegalArgumentException;
 import com.pablodev.organizationservice.organization.domain.exception.UnknownOrganizationTypeException;
+import com.pablodev.shared.domain.InvalidIdentifierException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -40,7 +41,7 @@ class OrganizationCreatorTest {
 
         CreateOrganizationCommand command = CreateOrganizationCommandMother.withInvalidId();
 
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(InvalidIdentifierException.class,
                 () -> creator.create(command));
 
     }

@@ -1,13 +1,18 @@
 package com.pablodev.organizationservice.organization.application.find;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.pablodev.organizationservice.organization.application.OrganizationResponse;
 import com.pablodev.organizationservice.organization.domain.Organization;
 import com.pablodev.organizationservice.organization.domain.OrganizationId;
+import com.pablodev.organizationservice.organization.domain.OrganizationIdMother;
 import com.pablodev.organizationservice.organization.domain.OrganizationMother;
 import com.pablodev.organizationservice.organization.domain.OrganizationRepository;
+import com.pablodev.organizationservice.organization.domain.exception.OrganizationDoesNotExistException;
+import com.pablodev.shared.domain.InvalidIdentifierException;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,6 +44,21 @@ class OrganizationFinderTest {
 
         assertThat(response).isEqualTo(expectedResponse);
 
+    }
+
+    @Test
+    void givenNotExistingId_whenFindById_thenThrowException() {
+
+        String id = OrganizationIdMother.random().getValue();
+
+        when(repository.findById(any())).thenReturn(Optional.empty());
+
+        assertThrows(OrganizationDoesNotExistException.class, () -> finder.find(id));
+    }
+
+    @Test
+    void givenInvalidId_whenFindById_thenThrowException() {
+        assertThrows(InvalidIdentifierException.class, () -> finder.find("1"));
     }
 
 

@@ -6,6 +6,7 @@ import com.pablodev.organizationservice.organization.application.OrganizationRes
 import com.pablodev.organizationservice.organization.domain.Organization;
 import com.pablodev.organizationservice.organization.domain.OrganizationMother;
 import com.pablodev.organizationservice.organization.domain.OrganizationRepository;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,11 +42,19 @@ class OrganizationGetControllerTest {
     }
 
     @Test
-    void givenInvalidId_whenGetOrganization_thenShouldReturnNotFound() {
+    void givenIdOfNotExistingOrganization_whenGetOrganization_thenShouldReturnNotFound() {
+        ResponseEntity<OrganizationResponse> forEntity = restTemplate.getForEntity(
+                "/organization/" + UUID.randomUUID(), OrganizationResponse.class);
+
+        assertThat(forEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void givenInvalidId_whenGetOrganization_thenShouldReturnBadRequest() {
         ResponseEntity<OrganizationResponse> forEntity = restTemplate.getForEntity(
                 "/organization/" + 1, OrganizationResponse.class);
 
-        assertThat(forEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(forEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
 

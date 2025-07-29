@@ -33,7 +33,7 @@ class OrganizationFinderTest {
     void givenValidId_whenFindById_thenReturnOrganizationResponse() {
 
         Organization organization = OrganizationMother.random();
-        OrganizationId id = new OrganizationId(organization.getId());
+        OrganizationId id = OrganizationIdMother.create(organization.getId());
 
         OrganizationResponse expectedResponse = OrganizationResponse.fromAggregate(
                 organization);
@@ -49,11 +49,11 @@ class OrganizationFinderTest {
     @Test
     void givenNotExistingId_whenFindById_thenThrowException() {
 
-        String id = OrganizationIdMother.random().getValue();
+        OrganizationId id = OrganizationIdMother.random();
 
         when(repository.findById(any())).thenReturn(Optional.empty());
 
-        assertThrows(OrganizationDoesNotExistException.class, () -> finder.find(id));
+        assertThrows(OrganizationDoesNotExistException.class, () -> finder.find(id.getValue()));
     }
 
     @Test

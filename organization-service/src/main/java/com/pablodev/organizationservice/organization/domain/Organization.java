@@ -11,6 +11,14 @@ public class Organization extends AggregateRoot {
     private final OrganizationType type;
     private final OrganizationAddress address;
 
+    private Organization(OrganizationId id, OrganizationName name, OrganizationType type,
+            OrganizationAddress address) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.address = address;
+    }
+
     public Organization(
             String id,
             String name,
@@ -20,10 +28,10 @@ public class Organization extends AggregateRoot {
             String state,
             String country
     ) {
-        this.id = new OrganizationId(id);
-        this.name = new OrganizationName(name);
-        this.address = new OrganizationAddress(street, city, state, country);
-        this.type = OrganizationType.from(type);
+        this(new OrganizationId(id),
+                new OrganizationName(name),
+                OrganizationType.from(type),
+                new OrganizationAddress(street, city, state, country));
     }
 
     public static Organization create(

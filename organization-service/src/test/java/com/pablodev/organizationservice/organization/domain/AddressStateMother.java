@@ -5,7 +5,7 @@ import com.github.javafaker.Faker;
 public class AddressStateMother {
 
     public static AddressState random() {
-        return new AddressState(Faker.instance().address().state());
+        return create(Faker.instance().address().state());
     }
 
     public static AddressState create(String state) {

@@ -5,7 +5,7 @@ import com.github.javafaker.Faker;
 public class OrganizationTypeMother {
 
     public static OrganizationType random() {
-        return OrganizationType.from(Faker.instance().options().option("COMPANY", "INDIVIDUAL"));
+        return create(Faker.instance().options().option("COMPANY", "INDIVIDUAL"));
     }
 
     public static OrganizationType create(String type) {

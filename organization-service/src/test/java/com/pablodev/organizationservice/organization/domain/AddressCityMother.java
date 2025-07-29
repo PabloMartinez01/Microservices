@@ -5,7 +5,7 @@ import com.github.javafaker.Faker;
 public class AddressCityMother {
 
     public static AddressCity random() {
-        return new AddressCity(Faker.instance().address().cityName());
+        return create(Faker.instance().address().cityName());
     }
 
     public static AddressCity create(String city) {

@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Transactional
-public class PostgreSQLOrganizationRepositoryTest {
+public class PostgresOrganizationRepositoryTest {
 
     @Autowired
     private PostgresOrganizationRepository repository;

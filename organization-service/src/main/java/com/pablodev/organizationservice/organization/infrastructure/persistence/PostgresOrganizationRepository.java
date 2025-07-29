@@ -14,13 +14,13 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class PostgreSqlOrganizationRepository implements OrganizationRepository {
+public class PostgresOrganizationRepository implements OrganizationRepository {
 
     private final JpaOrganizationRepository organizationRepository;
     private final OrganizationEntityMapper organizationMapper;
     private final CriteriaConverter<OrganizationEntity> criteriaConverter;
 
-    public PostgreSqlOrganizationRepository(JpaOrganizationRepository organizationRepository,
+    public PostgresOrganizationRepository(JpaOrganizationRepository organizationRepository,
             OrganizationEntityMapper organizationMapper) {
         this.organizationRepository = organizationRepository;
         this.organizationMapper = organizationMapper;

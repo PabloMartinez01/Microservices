@@ -27,7 +27,11 @@ public class OrganizationFinderAllTest {
     @Test
     void givenNothing_whenFindAll_thenReturnAllOrganizations() {
 
-        List<Organization> organizations = createOrganizations();
+        List<Organization> organizations = List.of(
+                OrganizationMother.random(),
+                OrganizationMother.random(),
+                OrganizationMother.random()
+        );
         OrganizationsResponse expectedResponse = createExpectedResponse(organizations);
 
         when(repository.findAll()).thenReturn(organizations);
@@ -36,14 +40,6 @@ public class OrganizationFinderAllTest {
 
         assertThat(expectedResponse).isEqualTo(organizationsResponse);
 
-    }
-
-    private List<Organization> createOrganizations() {
-        return List.of(
-                OrganizationMother.random(),
-                OrganizationMother.random(),
-                OrganizationMother.random()
-        );
     }
 
     private OrganizationsResponse createExpectedResponse(List<Organization> organizations) {

@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostgreSQLOrganizationRepositoryTest {
 
     @Autowired
-    private PostgreSqlOrganizationRepository repository;
+    private PostgresOrganizationRepository repository;
 
     @Test
     void givenOrganization_whenSave_shouldSaveOrganization() {

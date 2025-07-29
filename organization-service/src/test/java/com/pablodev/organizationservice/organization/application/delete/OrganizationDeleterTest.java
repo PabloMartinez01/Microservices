@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import com.pablodev.organizationservice.organization.domain.Organization;
 import com.pablodev.organizationservice.organization.domain.OrganizationId;
+import com.pablodev.organizationservice.organization.domain.OrganizationIdMother;
 import com.pablodev.organizationservice.organization.domain.OrganizationMother;
 import com.pablodev.organizationservice.organization.domain.OrganizationRepository;
 import java.util.Optional;
@@ -28,7 +29,7 @@ class OrganizationDeleterTest {
     void givenExistentId_whenDeleteOrganization_thenDeleteOrganization() {
 
         Organization existentOrganization = OrganizationMother.random();
-        OrganizationId id = new OrganizationId(existentOrganization.getId());
+        OrganizationId id = OrganizationIdMother.create(existentOrganization.getId());
 
         when(repository.findById(id)).thenReturn(Optional.of(existentOrganization));
 

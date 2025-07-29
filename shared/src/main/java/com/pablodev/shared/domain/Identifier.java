@@ -18,8 +18,13 @@ public class Identifier implements Serializable {
         this.value = value;
     }
 
-    private void ensureValidUuid(String value) throws IllegalArgumentException {
-        UUID.fromString(value);
+    private void ensureValidUuid(String value) {
+        try {
+            UUID.fromString(value);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidIdentifierException(value);
+        }
+
     }
 
 }

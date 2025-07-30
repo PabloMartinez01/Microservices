@@ -5,9 +5,9 @@ import java.time.LocalDate;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
-public class StartDate extends ValueObject<LocalDate> {
+public class SubscriptionStartDate extends ValueObject<LocalDate> {
 
-    public StartDate(LocalDate value) {
+    public SubscriptionStartDate(LocalDate value) {
         super(value);
     }
 }

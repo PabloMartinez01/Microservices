@@ -1,12 +1,32 @@
 package com.pablodev.organizationservice.subscription.domain;
 
-import com.pablodev.shared.domain.ValueObject;
-import lombok.EqualsAndHashCode;
+/*
+    FUTURE: start day after today
+    ACTIVE: start day before today and expiration date after today
+    EXPIRED: start day before today and expiration date before today
+    CANCELLED: cancelled flag
+ */
+public enum SubscriptionStatus {
+    FUTURE, ACTIVE, EXPIRED, CANCELLED;
 
-@EqualsAndHashCode(callSuper = true)
-public class SubscriptionStatus extends ValueObject<Boolean> {
 
-    public SubscriptionStatus(Boolean value) {
-        super(value);
+    public static SubscriptionStatus fromSubscriptionDates(
+            SubscriptionDateRange dateRange
+    ) {
+
+        boolean startIsBefore = startDate.isBeforeNow();
+        boolean expirationIsBefore = expirationDate.isBeforeNow();
+
+        if (startIsBefore && expirationIsBefore) {
+            return SubscriptionStatus.EXPIRED;
+        }
+        if (startIsBefore) {
+            return SubscriptionStatus.ACTIVE;
+        }
+
+        return SubscriptionStatus.FUTURE;
     }
+
 }
+
+

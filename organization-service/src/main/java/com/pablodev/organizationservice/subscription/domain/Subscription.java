@@ -4,34 +4,62 @@ import com.pablodev.shared.domain.AggregateRoot;
 import java.time.LocalDate;
 import lombok.EqualsAndHashCode;
 
+
 @EqualsAndHashCode(callSuper = false)
 public class Subscription extends AggregateRoot {
 
     private final SubscriptionId id;
-    private final SubscriptionStartDate startDate;
-    private final SubscriptionExpirationDate expirationDate;
-    private final SubscriptionStatus status;
+    private final SubscriptionDateRange dateRange;
+    private SubscriptionCancelled isCancelled;
 
     public Subscription(
             SubscriptionId id,
-            SubscriptionStartDate startDate,
-            SubscriptionExpirationDate expirationDate,
-            SubscriptionStatus status) {
-
+            SubscriptionDateRange dateRange,
+            SubscriptionCancelled isCancelled
+    ) {
         this.id = id;
-        this.startDate = startDate;
-        this.expirationDate = expirationDate;
-        this.status = status;
+        this.dateRange = dateRange;
+        this.isCancelled = isCancelled;
     }
 
-    public static Subscription create(String id, LocalDate startDate, LocalDate expirationDate,
-            boolean status) {
-        return new Subscription(
+    public Subscription(
+            String id,
+            LocalDate startDate,
+            LocalDate expirationDate,
+            boolean isCancelled
+    ) {
+        this(
                 new SubscriptionId(id),
-                new SubscriptionStartDate(startDate),
-                new SubscriptionExpirationDate(expirationDate),
-                new SubscriptionStatus(status)
+                new SubscriptionDateRange(startDate, expirationDate),
+                new SubscriptionCancelled(isCancelled)
         );
     }
+
+    public static Subscription create(String id, LocalDate startDate, LocalDate expirationDate) {
+        return new Subscription(id, startDate, expirationDate, false);
+    }
+
+    public void cancel() {
+        isCancelled = new SubscriptionCancelled(true);
+    }
+
+    public SubscriptionStatus getStatus() {
+
+        if (isCancelled.getValue()) {
+            return SubscriptionStatus.CANCELLED;
+        }
+
+        if (dateRange.startedBeforeNow() && dateRange.expiredBeforeNow()) {
+            return SubscriptionStatus.EXPIRED;
+        }
+
+        if (dateRange.startedBeforeNow()) {
+            return SubscriptionStatus.ACTIVE;
+        }
+
+        return SubscriptionStatus.FUTURE;
+
+    }
+
 
 }

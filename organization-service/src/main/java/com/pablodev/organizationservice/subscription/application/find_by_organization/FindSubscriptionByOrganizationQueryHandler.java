@@ -7,13 +7,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class FindOrganizationQueryHandler implements
-        QueryHandler<FindByOrganizationQuery, SubscriptionsResponse> {
+public class FindSubscriptionByOrganizationQueryHandler implements
+        QueryHandler<FindSubscriptionByOrganizationQuery, SubscriptionsResponse> {
 
     private final SubscriptionFinderByOrganization finder;
 
     @Override
-    public SubscriptionsResponse handle(FindByOrganizationQuery query) {
+    public SubscriptionsResponse handle(FindSubscriptionByOrganizationQuery query) {
         return finder.findByOrganization(query.organizationId());
     }
 }

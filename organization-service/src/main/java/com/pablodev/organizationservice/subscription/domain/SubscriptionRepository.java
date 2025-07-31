@@ -9,7 +9,7 @@ public interface SubscriptionRepository {
 
     Subscription findById(SubscriptionId subscriptionId);
 
-    List<Subscription> searchBy(Criteria criteria);
+    List<Subscription> search(Criteria criteria);
 
     void deleteById(SubscriptionId subscriptionId);
 }

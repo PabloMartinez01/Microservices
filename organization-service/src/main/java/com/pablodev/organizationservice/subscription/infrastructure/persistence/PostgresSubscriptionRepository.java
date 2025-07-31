@@ -43,7 +43,7 @@ public class PostgresSubscriptionRepository implements SubscriptionRepository {
     }
 
     @Override
-    public List<Subscription> searchBy(Criteria criteria) {
+    public List<Subscription> search(Criteria criteria) {
 
         Sort sort = criteriaConverter.toSort(criteria);
         Specification<SubscriptionEntity> specification = criteriaConverter.toSpecification(

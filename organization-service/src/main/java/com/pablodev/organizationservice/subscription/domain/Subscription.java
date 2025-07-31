@@ -1,6 +1,8 @@
 package com.pablodev.organizationservice.subscription.domain;
 
 import com.pablodev.organizationservice.organization.domain.OrganizationId;
+import com.pablodev.organizationservice.subscription.domain.exceptions.SubscriptionAlreadyCancelled;
+import com.pablodev.organizationservice.subscription.domain.exceptions.SubscriptionAlreadyExpired;
 import com.pablodev.shared.domain.AggregateRoot;
 import java.time.LocalDate;
 import lombok.EqualsAndHashCode;
@@ -15,7 +17,7 @@ public class Subscription extends AggregateRoot {
     private final SubscriptionDateRange dateRange;
     private boolean cancelled;
 
-    public Subscription(
+    private Subscription(
             SubscriptionId id,
             OrganizationId organizationId,
             SubscriptionDateRange dateRange,
@@ -48,10 +50,25 @@ public class Subscription extends AggregateRoot {
             LocalDate startDate,
             LocalDate expirationDate
     ) {
-        return new Subscription(id, organizationId, startDate, expirationDate, false);
+        return new Subscription(
+                new SubscriptionId(id),
+                new OrganizationId(organizationId),
+                SubscriptionDateRange.create(startDate, expirationDate),
+                false);
     }
 
     public void cancel() {
+
+        SubscriptionStatus status = getStatus();
+
+        if (status == SubscriptionStatus.CANCELLED) {
+            throw new SubscriptionAlreadyCancelled();
+        }
+
+        if (status == SubscriptionStatus.EXPIRED) {
+            throw new SubscriptionAlreadyExpired();
+        }
+
         cancelled = false;
     }
 

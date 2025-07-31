@@ -10,3 +10,6 @@ CREATE TABLE organizations
 
     CONSTRAINT pk_organizations PRIMARY KEY (id)
 );
+
+
+

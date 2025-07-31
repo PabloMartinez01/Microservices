@@ -19,7 +19,18 @@ public class SubscriptionDateRange {
         ensureValidDateRange();
     }
 
-    private static void ensureDateNotNull(LocalDate date, String message) {
+    public static SubscriptionDateRange create(LocalDate startDate, LocalDate expirationDate) {
+        ensureFutureDateRange(startDate, expirationDate);
+        return new SubscriptionDateRange(startDate, expirationDate);
+    }
+
+    private static void ensureFutureDateRange(LocalDate startDate, LocalDate expirationDate) {
+        if (startDate.isBefore(LocalDate.now()) || expirationDate.isBefore(LocalDate.now())) {
+            throw new SubscriptionIllegalArgumentException("Date must be before or equal to date");
+        }
+    }
+
+    private void ensureDateNotNull(LocalDate date, String message) {
         if (date == null) {
             throw new SubscriptionIllegalArgumentException(message);
         }
@@ -34,7 +45,7 @@ public class SubscriptionDateRange {
             throw new InvalidSubscriptionDateRangeException(startDate, expirationDate);
         }
     }
-    
+
     public boolean startedBeforeNow() {
         return startDate.isBefore(LocalDate.now());
     }

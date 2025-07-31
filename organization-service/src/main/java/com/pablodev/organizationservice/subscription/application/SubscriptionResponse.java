@@ -1,4 +1,4 @@
-package com.pablodev.organizationservice.subscription.application.find_by_organization;
+package com.pablodev.organizationservice.subscription.application;
 
 import com.pablodev.organizationservice.subscription.domain.Subscription;
 import com.pablodev.shared.domain.query.QueryResponse;

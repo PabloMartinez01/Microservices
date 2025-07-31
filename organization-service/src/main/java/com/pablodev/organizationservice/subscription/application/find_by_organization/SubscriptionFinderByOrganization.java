@@ -1,6 +1,8 @@
 package com.pablodev.organizationservice.subscription.application.find_by_organization;
 
 import com.pablodev.organizationservice.organization.application.find.OrganizationFinder;
+import com.pablodev.organizationservice.subscription.application.SubscriptionResponse;
+import com.pablodev.organizationservice.subscription.application.SubscriptionsResponse;
 import com.pablodev.organizationservice.subscription.domain.SubscriptionRepository;
 import com.pablodev.shared.domain.criteria.Criteria;
 import com.pablodev.shared.domain.criteria.Filter;

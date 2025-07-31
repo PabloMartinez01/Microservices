@@ -15,6 +15,7 @@ public class Subscription extends AggregateRoot {
     private final SubscriptionId id;
     private final OrganizationId organizationId;
     private final SubscriptionDateRange dateRange;
+    private final SubscriptionStatus status;
     private boolean cancelled;
 
     private Subscription(
@@ -27,6 +28,7 @@ public class Subscription extends AggregateRoot {
         this.organizationId = organizationId;
         this.dateRange = dateRange;
         this.cancelled = cancelled;
+        this.status = calculateStatus();
     }
 
     public Subscription(
@@ -59,8 +61,6 @@ public class Subscription extends AggregateRoot {
 
     public void cancel() {
 
-        SubscriptionStatus status = getStatus();
-
         if (status == SubscriptionStatus.CANCELLED) {
             throw new SubscriptionAlreadyCancelled();
         }
@@ -69,10 +69,15 @@ public class Subscription extends AggregateRoot {
             throw new SubscriptionAlreadyExpired();
         }
 
-        cancelled = false;
+        cancelled = true;
     }
 
-    public SubscriptionStatus getStatus() {
+    public boolean overlaps(LocalDate startDate, LocalDate endDate) {
+        return dateRange.overlaps(startDate, endDate);
+    }
+
+
+    private SubscriptionStatus calculateStatus() {
 
         if (cancelled) {
             return SubscriptionStatus.CANCELLED;

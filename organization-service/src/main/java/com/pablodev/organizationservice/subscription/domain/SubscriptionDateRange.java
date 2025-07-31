@@ -55,4 +55,7 @@ public class SubscriptionDateRange {
     }
 
 
+    public boolean overlaps(LocalDate startDate, LocalDate expirationDate) {
+        return startDate.isBefore(this.expirationDate) && expirationDate.isAfter(this.startDate);
+    }
 }

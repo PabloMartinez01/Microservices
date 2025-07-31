@@ -9,7 +9,8 @@ public record SubscriptionResponse(
         String organizationId,
         LocalDate startDate,
         LocalDate expirationDate,
-        Boolean cancelled) implements QueryResponse {
+        String status
+) implements QueryResponse {
 
 
     public static SubscriptionResponse fromAggregate(Subscription subscription) {
@@ -18,7 +19,7 @@ public record SubscriptionResponse(
                 subscription.getOrganizationIdValue(),
                 subscription.getStartDate(),
                 subscription.getExpirationDate(),
-                subscription.isCancelled()
+                subscription.getStatus().name()
         );
     }
 

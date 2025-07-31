@@ -10,28 +10,20 @@ public class Subscription extends AggregateRoot {
 
     private final SubscriptionId id;
     private final SubscriptionDateRange dateRange;
-    private SubscriptionCancelled isCancelled;
+    private Boolean isCancelled;
 
-    public Subscription(
-            SubscriptionId id,
-            SubscriptionDateRange dateRange,
-            SubscriptionCancelled isCancelled
-    ) {
+    public Subscription(SubscriptionId id, SubscriptionDateRange dateRange, Boolean isCancelled) {
         this.id = id;
         this.dateRange = dateRange;
         this.isCancelled = isCancelled;
     }
 
-    public Subscription(
-            String id,
-            LocalDate startDate,
-            LocalDate expirationDate,
-            boolean isCancelled
-    ) {
+    public Subscription(String id, LocalDate startDate, LocalDate expirationDate,
+            Boolean isCancelled) {
         this(
                 new SubscriptionId(id),
                 new SubscriptionDateRange(startDate, expirationDate),
-                new SubscriptionCancelled(isCancelled)
+                isCancelled
         );
     }
 
@@ -40,15 +32,14 @@ public class Subscription extends AggregateRoot {
     }
 
     public void cancel() {
-        isCancelled = new SubscriptionCancelled(true);
+        isCancelled = false;
     }
 
     public SubscriptionStatus getStatus() {
 
-        if (isCancelled.getValue()) {
+        if (Boolean.TRUE.equals(isCancelled)) {
             return SubscriptionStatus.CANCELLED;
         }
-
         if (dateRange.startedBeforeNow() && dateRange.expiredBeforeNow()) {
             return SubscriptionStatus.EXPIRED;
         }

@@ -8,25 +8,6 @@ package com.pablodev.organizationservice.subscription.domain;
  */
 public enum SubscriptionStatus {
     FUTURE, ACTIVE, EXPIRED, CANCELLED;
-
-
-    public static SubscriptionStatus fromSubscriptionDates(
-            SubscriptionDateRange dateRange
-    ) {
-
-        boolean startIsBefore = startDate.isBeforeNow();
-        boolean expirationIsBefore = expirationDate.isBeforeNow();
-
-        if (startIsBefore && expirationIsBefore) {
-            return SubscriptionStatus.EXPIRED;
-        }
-        if (startIsBefore) {
-            return SubscriptionStatus.ACTIVE;
-        }
-
-        return SubscriptionStatus.FUTURE;
-    }
-
 }
 
 

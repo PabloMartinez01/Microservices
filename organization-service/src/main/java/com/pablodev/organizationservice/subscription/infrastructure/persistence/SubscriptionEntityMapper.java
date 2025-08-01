@@ -17,7 +17,7 @@ public class SubscriptionEntityMapper {
     }
 
     public Subscription toAggregate(SubscriptionEntity entity) {
-        return new Subscription(
+        return Subscription.fromData(
                 entity.getId(),
                 entity.getOrganizationId(),
                 entity.getStartDate(),

@@ -1,8 +1,7 @@
 package com.pablodev.organizationservice.subscription.domain;
 
 import com.pablodev.organizationservice.organization.domain.OrganizationId;
-import com.pablodev.organizationservice.subscription.domain.exceptions.SubscriptionAlreadyCancelled;
-import com.pablodev.organizationservice.subscription.domain.exceptions.SubscriptionAlreadyExpired;
+import com.pablodev.organizationservice.subscription.domain.exceptions.SubscriptionNotCancellableException;
 import com.pablodev.shared.domain.AggregateRoot;
 import java.time.LocalDate;
 import lombok.EqualsAndHashCode;
@@ -12,18 +11,16 @@ import lombok.Getter;
 @EqualsAndHashCode(callSuper = false)
 public class Subscription extends AggregateRoot {
 
+    private static final Integer SUBSCRIPTION_DURATION_DAYS = 30;
+
     private final SubscriptionId id;
     private final OrganizationId organizationId;
     private final SubscriptionDateRange dateRange;
     private final SubscriptionStatus status;
     private boolean cancelled;
 
-    private Subscription(
-            SubscriptionId id,
-            OrganizationId organizationId,
-            SubscriptionDateRange dateRange,
-            boolean cancelled
-    ) {
+    private Subscription(SubscriptionId id, OrganizationId organizationId, SubscriptionDateRange dateRange,
+            boolean cancelled) {
         this.id = id;
         this.organizationId = organizationId;
         this.dateRange = dateRange;
@@ -31,49 +28,47 @@ public class Subscription extends AggregateRoot {
         this.status = calculateStatus();
     }
 
-    public Subscription(
-            String id,
+
+    public static Subscription fromData(
+            String subscriptionId,
             String organizationId,
             LocalDate startDate,
             LocalDate expirationDate,
             boolean cancelled
     ) {
-        this(
-                new SubscriptionId(id),
+
+        SubscriptionDateRange dateRange = SubscriptionDateRange.fromData(startDate, expirationDate);
+
+        return new Subscription(
+                new SubscriptionId(subscriptionId),
                 new OrganizationId(organizationId),
-                new SubscriptionDateRange(startDate, expirationDate),
-                cancelled
-        );
+                dateRange,
+                cancelled);
     }
 
-    public static Subscription create(
-            String id,
-            String organizationId,
-            LocalDate startDate,
-            LocalDate expirationDate
-    ) {
+    public static Subscription create(String subscriptionId, String organizationId) {
+
+        SubscriptionDateRange dateRange = SubscriptionDateRange.create(SUBSCRIPTION_DURATION_DAYS);
+
         return new Subscription(
-                new SubscriptionId(id),
+                new SubscriptionId(subscriptionId),
                 new OrganizationId(organizationId),
-                SubscriptionDateRange.create(startDate, expirationDate),
-                false);
+                dateRange,
+                false
+        );
     }
 
     public void cancel() {
 
         if (status == SubscriptionStatus.CANCELLED) {
-            throw new SubscriptionAlreadyCancelled();
+            throw new SubscriptionNotCancellableException("The subscription is already cancelled");
         }
 
         if (status == SubscriptionStatus.EXPIRED) {
-            throw new SubscriptionAlreadyExpired();
+            throw new SubscriptionNotCancellableException("The subscription is expired");
         }
 
         cancelled = true;
-    }
-
-    public boolean overlaps(LocalDate startDate, LocalDate endDate) {
-        return dateRange.overlaps(startDate, endDate);
     }
 
 
@@ -82,16 +77,12 @@ public class Subscription extends AggregateRoot {
         if (cancelled) {
             return SubscriptionStatus.CANCELLED;
         }
-        if (dateRange.startedBeforeNow() && dateRange.expiredBeforeNow()) {
+
+        if (dateRange.expiredBeforeNow()) {
             return SubscriptionStatus.EXPIRED;
         }
 
-        if (dateRange.startedBeforeNow()) {
-            return SubscriptionStatus.ACTIVE;
-        }
-
-        return SubscriptionStatus.FUTURE;
-
+        return SubscriptionStatus.ACTIVE;
     }
 
     public String getIdValue() {

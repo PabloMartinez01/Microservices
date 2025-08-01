@@ -1,6 +1,5 @@
 package com.pablodev.organizationservice.subscription.domain;
 
-import com.pablodev.organizationservice.subscription.domain.exceptions.InvalidSubscriptionDateRangeException;
 import com.pablodev.organizationservice.subscription.domain.exceptions.SubscriptionIllegalArgumentException;
 import java.time.LocalDate;
 import lombok.EqualsAndHashCode;
@@ -13,41 +12,26 @@ public class SubscriptionDateRange {
     private final LocalDate startDate;
     private final LocalDate expirationDate;
 
-    public SubscriptionDateRange(LocalDate startDate, LocalDate expirationDate) {
+    private SubscriptionDateRange(LocalDate startDate, LocalDate expirationDate) {
         this.startDate = startDate;
         this.expirationDate = expirationDate;
-        ensureValidDateRange();
     }
 
-    public static SubscriptionDateRange create(LocalDate startDate, LocalDate expirationDate) {
-        ensureFutureDateRange(startDate, expirationDate);
+    public static SubscriptionDateRange create(Integer durationInDays) {
+        ensureValidDuration(durationInDays);
+        LocalDate startDate = LocalDate.now();
+        LocalDate expirationDate = startDate.plusDays(durationInDays);
         return new SubscriptionDateRange(startDate, expirationDate);
     }
 
-    private static void ensureFutureDateRange(LocalDate startDate, LocalDate expirationDate) {
-        if (startDate.isBefore(LocalDate.now()) || expirationDate.isBefore(LocalDate.now())) {
-            throw new SubscriptionIllegalArgumentException("Date must be before or equal to date");
+    private static void ensureValidDuration(Integer durationInDays) {
+        if (durationInDays == null || durationInDays < 1) {
+            throw new SubscriptionIllegalArgumentException("Duration must be greater than 0");
         }
     }
 
-    private void ensureDateNotNull(LocalDate date, String message) {
-        if (date == null) {
-            throw new SubscriptionIllegalArgumentException(message);
-        }
-    }
-
-    private void ensureValidDateRange() {
-
-        ensureDateNotNull(startDate, "Start date cannot be null");
-        ensureDateNotNull(expirationDate, "Expiration date cannot be null");
-
-        if (startDate.isAfter(expirationDate)) {
-            throw new InvalidSubscriptionDateRangeException(startDate, expirationDate);
-        }
-    }
-
-    public boolean startedBeforeNow() {
-        return startDate.isBefore(LocalDate.now());
+    public static SubscriptionDateRange fromData(LocalDate startDate, LocalDate expirationDate) {
+        return new SubscriptionDateRange(startDate, expirationDate);
     }
 
     public boolean expiredBeforeNow() {
@@ -55,7 +39,4 @@ public class SubscriptionDateRange {
     }
 
 
-    public boolean overlaps(LocalDate startDate, LocalDate expirationDate) {
-        return startDate.isBefore(this.expirationDate) && expirationDate.isAfter(this.startDate);
-    }
 }

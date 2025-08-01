@@ -8,6 +8,7 @@ import com.pablodev.shared.domain.criteria.Criteria;
 import com.pablodev.shared.domain.criteria.Filter;
 import com.pablodev.shared.domain.criteria.Order;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,31 +24,24 @@ public class SubscriptionCreator {
     public void create(CreateSubscriptionCommand command) {
 
         ensureOrganizationExists(command.organizationId());
-        ensureSubscriptionsNotOverlap(command.startDate(), command.expirationDate(),
-                command.organizationId());
+        ensureSubscriptionsNotOverlap(command.organizationId());
 
-        Subscription subscription = Subscription.create(
-                command.id(),
-                command.organizationId(),
-                command.startDate(),
-                command.expirationDate());
+        Subscription subscription = Subscription.create(command.id(), command.organizationId());
 
         subscriptionRepository.save(subscription);
-
     }
 
-    private void ensureSubscriptionsNotOverlap(LocalDate startDate, LocalDate endDate,
-            String organizationId) {
+    private void ensureSubscriptionsNotOverlap(String organizationId) {
 
-        Criteria byOrganizationId = Criteria.of(
+        Criteria byOrganizationAndExpirationDate = Criteria.of(
                 Order.unordered(),
-                Filter.equals("organizationId", organizationId)
+                Filter.equals("organizationId", organizationId),
+                Filter.greaterThan("expirationDate",
+                        LocalDate.now().minusDays(1).format(DateTimeFormatter.ISO_LOCAL_DATE))
         );
 
-        for (Subscription subscription : subscriptionRepository.search(byOrganizationId)) {
-            if (subscription.overlaps(startDate, endDate)) {
-                throw new SubscriptionDateRangeOverlapException(startDate, endDate);
-            }
+        if (!subscriptionRepository.search(byOrganizationAndExpirationDate).isEmpty()) {
+            throw new SubscriptionDateRangeOverlapException();
         }
 
     }

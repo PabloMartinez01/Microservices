@@ -7,7 +7,7 @@ package com.pablodev.organizationservice.subscription.domain;
     CANCELLED: cancelled flag
  */
 public enum SubscriptionStatus {
-    FUTURE, ACTIVE, EXPIRED, CANCELLED;
+    ACTIVE, EXPIRED, CANCELLED;
 }
 
 

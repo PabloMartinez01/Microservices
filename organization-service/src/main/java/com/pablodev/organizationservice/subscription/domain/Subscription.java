@@ -4,11 +4,13 @@ import com.pablodev.organizationservice.organization.domain.OrganizationId;
 import com.pablodev.organizationservice.subscription.domain.exceptions.SubscriptionNotCancellableException;
 import com.pablodev.shared.domain.AggregateRoot;
 import java.time.LocalDate;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode(callSuper = false)
+@AllArgsConstructor
 public class Subscription extends AggregateRoot {
 
     private static final Integer SUBSCRIPTION_DURATION_DAYS = 30;
@@ -16,17 +18,7 @@ public class Subscription extends AggregateRoot {
     private final SubscriptionId id;
     private final OrganizationId organizationId;
     private final SubscriptionDateRange dateRange;
-    private final SubscriptionStatus status;
     private boolean cancelled;
-
-    private Subscription(SubscriptionId id, OrganizationId organizationId, SubscriptionDateRange dateRange,
-            boolean cancelled) {
-        this.id = id;
-        this.organizationId = organizationId;
-        this.dateRange = dateRange;
-        this.cancelled = cancelled;
-        this.status = calculateStatus();
-    }
 
 
     public static Subscription fromData(
@@ -59,16 +51,14 @@ public class Subscription extends AggregateRoot {
     }
 
     public void cancel() {
-
-        if (status == SubscriptionStatus.CANCELLED) {
-            throw new SubscriptionNotCancellableException("The subscription is already cancelled");
+        switch (calculateStatus()) {
+            case CANCELLED:
+                throw new SubscriptionNotCancellableException("The subscription is already cancelled");
+            case EXPIRED:
+                throw new SubscriptionNotCancellableException("The subscription is expired");
+            default:
+                cancelled = true;
         }
-
-        if (status == SubscriptionStatus.EXPIRED) {
-            throw new SubscriptionNotCancellableException("The subscription is expired");
-        }
-
-        cancelled = true;
     }
 
 
@@ -99,6 +89,10 @@ public class Subscription extends AggregateRoot {
 
     public LocalDate getExpirationDate() {
         return dateRange.getExpirationDate();
+    }
+
+    public SubscriptionStatus getStatus() {
+        return calculateStatus();
     }
 
 

@@ -5,7 +5,7 @@ import com.pablodev.shared.domain.ValueObject;
 import lombok.EqualsAndHashCode;
 
 
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 public class OrganizationName extends ValueObject<String> {
 
     public OrganizationName(String value) {

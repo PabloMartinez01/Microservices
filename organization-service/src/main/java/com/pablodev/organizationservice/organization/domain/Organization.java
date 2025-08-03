@@ -1,8 +1,10 @@
 package com.pablodev.organizationservice.organization.domain;
 
 import com.pablodev.shared.domain.AggregateRoot;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class Organization extends AggregateRoot {
 
@@ -10,14 +12,6 @@ public class Organization extends AggregateRoot {
     private final OrganizationName name;
     private final OrganizationType type;
     private final OrganizationAddress address;
-
-    private Organization(OrganizationId id, OrganizationName name, OrganizationType type,
-            OrganizationAddress address) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.address = address;
-    }
 
     public Organization(
             String id,
@@ -28,10 +22,12 @@ public class Organization extends AggregateRoot {
             String state,
             String country
     ) {
-        this(new OrganizationId(id),
+        this(
+                new OrganizationId(id),
                 new OrganizationName(name),
                 OrganizationType.from(type),
-                new OrganizationAddress(street, city, state, country));
+                new OrganizationAddress(street, city, state, country)
+        );
     }
 
     public static Organization create(
@@ -43,7 +39,13 @@ public class Organization extends AggregateRoot {
             String state,
             String country
     ) {
-        return new Organization(id, name, type, street, city, state, country);
+
+        return new Organization(
+                new OrganizationId(id),
+                new OrganizationName(name),
+                OrganizationType.from(type),
+                new OrganizationAddress(street, city, state, country)
+        );
     }
 
     public String getId() {

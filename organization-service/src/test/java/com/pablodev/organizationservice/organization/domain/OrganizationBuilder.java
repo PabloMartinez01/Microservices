@@ -11,13 +11,16 @@ public class OrganizationBuilder {
     private String country;
 
     public OrganizationBuilder() {
+
+        OrganizationAddress address = OrganizationAddressMother.random();
+
         id = OrganizationIdMother.random().getValue();
         name = OrganizationNameMother.random().getValue();
         type = OrganizationTypeMother.random().name();
-        street = AddressStreetMother.random().getValue();
-        city = AddressCityMother.random().getValue();
-        state = AddressStateMother.random().getValue();
-        country = AddressCountryMother.random().getValue();
+        street = address.getStreet();
+        city = address.getCity();
+        state = address.getState();
+        country = address.getCountry();
     }
 
     public static OrganizationBuilder withRandomValues() {

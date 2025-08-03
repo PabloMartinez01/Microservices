@@ -25,9 +25,7 @@ public class SubscriptionPostController {
 
         CreateSubscriptionCommand command = new CreateSubscriptionCommand(
                 UUID.randomUUID().toString(),
-                request.organizationId(),
-                request.startDate(),
-                request.expirationDate()
+                request.organizationId()
         );
 
         commandBus.dispatch(command);

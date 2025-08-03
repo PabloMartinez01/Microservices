@@ -24,14 +24,14 @@ public class SubscriptionDateRange {
         return new SubscriptionDateRange(startDate, expirationDate);
     }
 
+    public static SubscriptionDateRange fromData(LocalDate startDate, LocalDate expirationDate) {
+        return new SubscriptionDateRange(startDate, expirationDate);
+    }
+
     private static void ensureValidDuration(Integer durationInDays) {
         if (durationInDays == null || durationInDays < 1) {
             throw new SubscriptionIllegalArgumentException("Duration must be greater than 0");
         }
-    }
-
-    public static SubscriptionDateRange fromData(LocalDate startDate, LocalDate expirationDate) {
-        return new SubscriptionDateRange(startDate, expirationDate);
     }
 
     public boolean expiredBeforeNow() {

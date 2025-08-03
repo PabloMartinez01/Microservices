@@ -19,7 +19,7 @@ public class OrganizationCreator {
 
     public void create(CreateOrganizationCommand command) {
 
-        ensureOrganizationNameNotExist(command.name());
+        ensureOrganizationNameNotExist(command.getName());
 
         Organization organization = createOrganization(command);
 
@@ -27,14 +27,15 @@ public class OrganizationCreator {
     }
 
     private Organization createOrganization(CreateOrganizationCommand command) {
+
         return Organization.create(
-                command.id(),
-                command.name(),
-                command.type(),
-                command.street(),
-                command.city(),
-                command.state(),
-                command.country()
+                command.getId(),
+                command.getName(),
+                command.getType(),
+                command.getAddress().getStreet(),
+                command.getAddress().getCity(),
+                command.getAddress().getCity(),
+                command.getAddress().getCountry()
         );
     }
 

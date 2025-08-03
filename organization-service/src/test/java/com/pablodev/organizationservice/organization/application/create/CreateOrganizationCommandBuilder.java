@@ -1,9 +1,8 @@
 package com.pablodev.organizationservice.organization.application.create;
 
-import com.pablodev.organizationservice.organization.domain.AddressCityMother;
-import com.pablodev.organizationservice.organization.domain.AddressCountryMother;
-import com.pablodev.organizationservice.organization.domain.AddressStateMother;
-import com.pablodev.organizationservice.organization.domain.AddressStreetMother;
+import com.pablodev.organizationservice.organization.application.OrganizationAddressData;
+import com.pablodev.organizationservice.organization.domain.OrganizationAddress;
+import com.pablodev.organizationservice.organization.domain.OrganizationAddressMother;
 import com.pablodev.organizationservice.organization.domain.OrganizationIdMother;
 import com.pablodev.organizationservice.organization.domain.OrganizationNameMother;
 import com.pablodev.organizationservice.organization.domain.OrganizationTypeMother;
@@ -19,13 +18,14 @@ public class CreateOrganizationCommandBuilder {
     private String country;
 
     public CreateOrganizationCommandBuilder() {
+        OrganizationAddress address = OrganizationAddressMother.random();
         id = OrganizationIdMother.random().getValue();
         name = OrganizationNameMother.random().getValue();
         type = OrganizationTypeMother.random().name();
-        street = AddressStreetMother.random().getValue();
-        city = AddressCityMother.random().getValue();
-        state = AddressStateMother.random().getValue();
-        country = AddressCountryMother.random().getValue();
+        street = address.getStreet();
+        city = address.getCity();
+        state = address.getState();
+        country = address.getCountry();
     }
 
     public static CreateOrganizationCommandBuilder withRandomValues() {
@@ -68,7 +68,8 @@ public class CreateOrganizationCommandBuilder {
     }
 
     public CreateOrganizationCommand build() {
-        return new CreateOrganizationCommand(id, name, type, street, city, state, country);
+        return new CreateOrganizationCommand(id, name, type,
+                new OrganizationAddressData(street, city, state, country));
     }
 
 

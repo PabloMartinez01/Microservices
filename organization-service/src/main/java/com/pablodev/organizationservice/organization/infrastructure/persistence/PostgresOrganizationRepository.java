@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -19,12 +20,14 @@ public class PostgresOrganizationRepository implements OrganizationRepository {
     private final JpaOrganizationRepository organizationRepository;
     private final OrganizationEntityMapper organizationMapper;
     private final CriteriaConverter<OrganizationEntity> criteriaConverter;
+    private final JdbcTemplate jdbcTemplate;
 
     public PostgresOrganizationRepository(JpaOrganizationRepository organizationRepository,
-            OrganizationEntityMapper organizationMapper) {
+            OrganizationEntityMapper organizationMapper, JdbcTemplate jdbcTemplate) {
         this.organizationRepository = organizationRepository;
         this.organizationMapper = organizationMapper;
         this.criteriaConverter = new CriteriaConverter<>();
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override

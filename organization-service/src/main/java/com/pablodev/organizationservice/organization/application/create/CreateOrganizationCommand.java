@@ -13,5 +13,5 @@ public final class CreateOrganizationCommand implements Command {
     private final String name;
     private final String type;
     private final OrganizationAddressData address;
-    
+
 }

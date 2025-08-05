@@ -36,7 +36,7 @@ class OrganizationUpdaterTest {
 
         Organization expectedOrganization = createExpectedOrganization(command);
 
-        when(repository.findById(new OrganizationId(command.id())))
+        when(repository.findById(new OrganizationId(command.getId())))
                 .thenReturn(Optional.of(existentOrganization));
 
         updater.update(command);
@@ -59,13 +59,13 @@ class OrganizationUpdaterTest {
 
     private Organization createExpectedOrganization(UpdateOrganizationCommand command) {
         return OrganizationMother.create(
-                command.id(),
-                command.name(),
-                command.type(),
-                command.street(),
-                command.city(),
-                command.state(),
-                command.country()
+                command.getId(),
+                command.getName(),
+                command.getType(),
+                command.getAddress().getStreet(),
+                command.getAddress().getCity(),
+                command.getAddress().getState(),
+                command.getAddress().getCountry()
         );
     }
 

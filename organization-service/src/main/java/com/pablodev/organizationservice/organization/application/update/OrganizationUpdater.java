@@ -17,7 +17,7 @@ public class OrganizationUpdater {
 
     public void update(UpdateOrganizationCommand command) {
 
-        ensureOrganizationExists(command.id());
+        ensureOrganizationExists(command.getId());
 
         Organization organization = createOrganization(command);
 
@@ -26,13 +26,13 @@ public class OrganizationUpdater {
 
     private Organization createOrganization(UpdateOrganizationCommand command) {
         return Organization.create(
-                command.id(),
-                command.name(),
-                command.type(),
-                command.street(),
-                command.city(),
-                command.state(),
-                command.country()
+                command.getId(),
+                command.getName(),
+                command.getType(),
+                command.getAddress().getStreet(),
+                command.getAddress().getCity(),
+                command.getAddress().getState(),
+                command.getAddress().getCountry()
         );
     }
 

@@ -1,9 +1,9 @@
 package com.pablodev.organizationservice.organization.application.user;
 
 import com.pablodev.shared.domain.event.DomainSubscriber;
-import com.pablodev.shared.infrastructure.event.kafka.UserCreatedDomainEvent;
+import com.pablodev.shared.domain.event.MockUserCreatedDomainEvent;
 
-@DomainSubscriber(UserCreatedDomainEvent.class)
+@DomainSubscriber(MockUserCreatedDomainEvent.class)
 public class CreateInternalUserOnUserCreated {
 
 }

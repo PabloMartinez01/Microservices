@@ -1,10 +1,9 @@
-package com.pablodev.shared.infrastructure.event.kafka;
+package com.pablodev.shared.domain.event;
 
-import com.pablodev.shared.domain.event.DomainEvent;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class UserCreatedDomainEvent extends DomainEvent {
+public class MockUserCreatedDomainEvent extends DomainEvent {
 
     private final String email;
 

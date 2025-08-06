@@ -1,7 +1,7 @@
 package com.pablodev.organizationservice;
 
 import com.pablodev.shared.domain.event.EventBus;
-import com.pablodev.shared.infrastructure.event.kafka.UserCreatedDomainEvent;
+import com.pablodev.shared.domain.event.MockUserCreatedDomainEvent;
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -21,7 +21,7 @@ public class OrganizationServiceApplication {
     @Bean
     public CommandLineRunner commandLineRunner(EventBus eventBus) {
         return args -> {
-            eventBus.publish(List.of(new UserCreatedDomainEvent("pepito@gmail.com")));
+            eventBus.publish(List.of(new MockUserCreatedDomainEvent("pepito@gmail.com")));
         };
     }
 

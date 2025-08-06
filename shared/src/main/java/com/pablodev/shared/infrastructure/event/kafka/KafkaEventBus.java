@@ -16,7 +16,7 @@ public class KafkaEventBus implements EventBus {
 
     @Override
     public void publish(List<DomainEvent> events) {
-        events.forEach(event -> kafkaTemplate.send(event.getEventName(), event));
+        //events.forEach(event -> kafkaTemplate.send(event.getEventName(), event));
     }
 
 

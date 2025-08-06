@@ -1,9 +1,12 @@
 package com.pablodev.shared.infrastructure.event.kafka;
 
 import com.pablodev.shared.domain.event.DomainEvent;
+import com.pablodev.shared.domain.event.DomainSubscriber;
 import com.pablodev.shared.domain.event.MockOnUserCreated;
 import com.pablodev.shared.domain.event.MockUserCreatedDomainEvent;
+import com.pablodev.shared.domain.event.Topic;
 import jakarta.annotation.PostConstruct;
+import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
@@ -31,16 +34,20 @@ public class KafkaConfiguration {
 
 
     @PostConstruct
-    public void init() throws NoSuchMethodException {
+    public void init() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
         MethodKafkaListenerEndpoint<String, DomainEvent> endpoint = new MethodKafkaListenerEndpoint<>();
 
-        MockUserCreatedDomainEvent event = new MockUserCreatedDomainEvent("example@email.com");
+        DomainSubscriber subscriberAnnotation = subscriber.getClass().getAnnotation(DomainSubscriber.class);
+        Class<? extends DomainEvent> eventClass = subscriberAnnotation.value();
+
+        Topic topicAnnotation = eventClass.getAnnotation(Topic.class);
+        String topic = topicAnnotation.value();
 
         endpoint.setId(UUID.randomUUID().toString());
         endpoint.setGroupId(kafkaProperties.getConsumer().getGroupId());
         endpoint.setAutoStartup(true);
-        endpoint.setTopics(event.getEventName());
+        endpoint.setTopics();
         endpoint.setMessageHandlerMethodFactory(new DefaultMessageHandlerMethodFactory());
         endpoint.setBean(subscriber);
         endpoint.setMethod(subscriber.getClass().getMethod("on", MockUserCreatedDomainEvent.class));

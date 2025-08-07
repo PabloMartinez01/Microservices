@@ -4,7 +4,7 @@ package com.pablodev.shared.domain.event;
 public class MockOnUserCreated {
 
     public void on(MockUserCreatedDomainEvent event) {
-
+        System.out.println("received");
     }
 
 }

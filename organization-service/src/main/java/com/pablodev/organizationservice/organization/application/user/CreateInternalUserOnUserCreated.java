@@ -7,7 +7,7 @@ import com.pablodev.shared.domain.event.MockUserCreatedDomainEvent;
 public class CreateInternalUserOnUserCreated {
 
     public void on(MockUserCreatedDomainEvent event) {
-        
+        System.out.println("received " + event.getId());
     }
 
 }

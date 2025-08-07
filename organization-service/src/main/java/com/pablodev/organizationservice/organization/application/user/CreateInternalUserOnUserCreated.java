@@ -6,4 +6,8 @@ import com.pablodev.shared.domain.event.MockUserCreatedDomainEvent;
 @DomainSubscriber(MockUserCreatedDomainEvent.class)
 public class CreateInternalUserOnUserCreated {
 
+    public void on(MockUserCreatedDomainEvent event) {
+        
+    }
+
 }

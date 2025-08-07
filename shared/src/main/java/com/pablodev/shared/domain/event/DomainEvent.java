@@ -19,5 +19,7 @@ public abstract class DomainEvent {
         this.id = UUID.randomUUID().toString();
         this.timestamp = LocalDateTime.now();
     }
-    
+
+    public abstract String getEventName();
+
 }

@@ -39,8 +39,6 @@ public class KafkaEventBusConfiguration {
     @PostConstruct
     public void init() throws NoSuchMethodException {
 
-        //initializeMessageHandlerMethodFactory();
-
         for (DomainEventSubscriberInformation subscriberInformation : subscribersRegistry.getSubscribersInformation()) {
             Class<?> subscriber = subscriberInformation.getSubscriber();
             List<Class<? extends DomainEvent>> events = subscriberInformation.getEvents();

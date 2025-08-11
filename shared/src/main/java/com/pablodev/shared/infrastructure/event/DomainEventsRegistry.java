@@ -32,4 +32,13 @@ public class DomainEventsRegistry {
                 orElseThrow(() -> new IllegalArgumentException("No event found for " + event.getName()));
     }
 
+    public Class<? extends DomainEvent> getDomainEvent(String eventName) {
+        return events.entrySet()
+                .stream()
+                .filter(e -> e.getValue().equals(eventName))
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No  event found for %s".formatted(eventName)));
+    }
+
 }

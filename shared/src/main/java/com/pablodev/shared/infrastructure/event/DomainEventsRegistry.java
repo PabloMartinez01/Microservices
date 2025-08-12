@@ -13,18 +13,12 @@ import org.springframework.stereotype.Component;
 public class DomainEventsRegistry {
 
     private final Map<Class<? extends DomainEvent>, String> events = new HashMap<>();
+    private final Map<String, Class<? extends DomainEvent>> eventsByName = new HashMap<>();
 
     @PostConstruct
-    public void postConstruct()
-            throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-
+    public void postConstruct() {
         Reflections reflections = new Reflections("com.pablodev");
-
-        for (Class<? extends DomainEvent> subtype : reflections.getSubTypesOf(DomainEvent.class)) {
-            String eventName = subtype.getConstructor().newInstance().getEventName();
-            events.put(subtype, eventName);
-        }
-
+        reflections.getSubTypesOf(DomainEvent.class).forEach(this::addDomainEvent);
     }
 
     public String getEventNameOf(Class<? extends DomainEvent> event) {
@@ -33,12 +27,18 @@ public class DomainEventsRegistry {
     }
 
     public Class<? extends DomainEvent> getDomainEvent(String eventName) {
-        return events.entrySet()
-                .stream()
-                .filter(e -> e.getValue().equals(eventName))
-                .map(Map.Entry::getKey)
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("No  event found for %s".formatted(eventName)));
+        return eventsByName.get(eventName);
+    }
+
+    private void addDomainEvent(Class<? extends DomainEvent> event) {
+        try {
+            String eventName = event.getConstructor().newInstance().getEventName();
+            events.put(event, eventName);
+            eventsByName.put(eventName, event);
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException |
+                 InvocationTargetException | NoSuchMethodException | SecurityException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

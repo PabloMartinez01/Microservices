@@ -45,6 +45,9 @@ public class KafkaConsumerRegistry {
                     customizer.customize(consumers)
             );
 
+            consumers.values().stream().toList();
+
+
         }
 
     }

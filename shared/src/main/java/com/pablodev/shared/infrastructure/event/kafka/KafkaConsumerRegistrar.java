@@ -1,6 +1,7 @@
 package com.pablodev.shared.infrastructure.event.kafka;
 
 import com.pablodev.shared.domain.event.DomainEvent;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.UUID;
@@ -25,7 +26,13 @@ public class KafkaConsumerRegistrar {
     private final KafkaProperties kafkaProperties;
     private final DefaultMessageHandlerMethodFactory methodFactory;
 
-
+    public void registerKafkaConsumers(List<KafkaConsumerRegistration> consumers)
+            throws NoSuchMethodException {
+        for (KafkaConsumerRegistration consumer : consumers) {
+            registerKafkaConsumer(consumer);
+        }
+    }
+    
     public void registerKafkaConsumer(KafkaConsumerRegistration consumerRegistration)
             throws NoSuchMethodException {
 
@@ -34,7 +41,7 @@ public class KafkaConsumerRegistrar {
 
         Properties properties = new Properties();
         properties.setProperty(JsonDeserializer.VALUE_DEFAULT_TYPE, eventClass.getName());
-        
+
         String groupId = Optional.ofNullable(consumerRegistration.getGroupId())
                 .orElse(kafkaProperties.getConsumer().getGroupId());
 
@@ -45,7 +52,6 @@ public class KafkaConsumerRegistrar {
         endpoint.setConsumerProperties(properties);
         endpoint.setTopics(consumerRegistration.getTopic());
         endpoint.setMessageHandlerMethodFactory(methodFactory);
-
         endpoint.setBean(applicationContext.getBean(subscriberClass));
         endpoint.setMethod(subscriberClass.getMethod("on", eventClass));
         registry.registerListenerContainer(endpoint, kafkaListenerContainerFactory);

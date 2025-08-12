@@ -4,6 +4,7 @@ import com.pablodev.shared.domain.event.DomainEvent;
 import com.pablodev.shared.domain.event.DomainSubscriber;
 import com.pablodev.shared.infrastructure.event.DomainEventsRegistry;
 import jakarta.annotation.PostConstruct;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Component;
 public class KafkaConsumerRegistry {
 
     private final DomainEventsRegistry eventsRegistry;
+    private final List<KafkaConsumerRegistrationCustomizer> customizers;
+    private final KafkaConsumerRegistrar registrar;
     private Map<Class<?>, KafkaConsumerRegistration> consumers;
 
     @PostConstruct
@@ -37,6 +40,10 @@ public class KafkaConsumerRegistry {
                     .build();
 
             consumers.put(subscriberClass, consumerRegistration);
+
+            customizers.forEach(customizer ->
+                    customizer.customize(consumers)
+            );
 
         }
 

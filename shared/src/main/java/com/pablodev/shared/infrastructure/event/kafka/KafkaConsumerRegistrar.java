@@ -5,6 +5,7 @@ import com.pablodev.shared.domain.event.DomainSubscriber;
 import com.pablodev.shared.infrastructure.event.DomainEventSubscribersRegistry;
 import com.pablodev.shared.infrastructure.event.DomainEventsRegistry;
 import jakarta.annotation.PostConstruct;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
@@ -68,6 +69,36 @@ public class KafkaConsumerRegistrar {
             endpoint.setMethod(subscriberClass.getMethod("on", eventClass));
             registry.registerListenerContainer(endpoint, kafkaListenerContainerFactory);
         }
+
+    }
+
+    private void registerKafkaConsumer(KafkaConsumerRegistration consumerRegistration) {
+
+        Class<?> subscriberClass = consumerRegistration.getSubscriberClass();
+        Class<? extends DomainEvent> eventClass = consumerRegistration.getEventClass();
+
+        DefaultMessageHandlerMethodFactory methodFactory = new DefaultMessageHandlerMethodFactory();
+        methodFactory.setMessageConverter(new MappingJackson2MessageConverter());
+        methodFactory.afterPropertiesSet();
+
+        Properties properties = new Properties();
+        properties.setProperty(JsonDeserializer.VALUE_DEFAULT_TYPE, eventClass.getName());
+
+        MethodKafkaListenerEndpoint<String, DomainEvent> endpoint = new MethodKafkaListenerEndpoint<>();
+        endpoint.setId(UUID.randomUUID().toString());
+
+        String groupId = Optional.ofNullable(consumerRegistration.getGroupId())
+                .orElse(kafkaProperties.getConsumer().getGroupId());
+
+        endpoint.setGroupId(groupId);
+        endpoint.setAutoStartup(true);
+        endpoint.setConsumerProperties(properties);
+        endpoint.setTopics(consumerRegistration.getTopic());
+        endpoint.setMessageHandlerMethodFactory(methodFactory);
+
+        endpoint.setBean(applicationContext.getBean(subscriberClass));
+        endpoint.setMethod(subscriberClass.getMethod("on", eventClass));
+        registry.registerListenerContainer(endpoint, kafkaListenerContainerFactory);
 
     }
 

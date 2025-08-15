@@ -4,6 +4,7 @@ import com.pablodev.shared.domain.event.DomainEvent;
 import com.pablodev.shared.domain.event.DomainSubscriber;
 import com.pablodev.shared.infrastructure.event.DomainEventsRegistry;
 import jakarta.annotation.PostConstruct;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,16 +14,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class KafkaConsumerRegistry {
+public class KafkaConsumerInitializer {
 
     private final DomainEventsRegistry eventsRegistry;
     private final List<KafkaConsumerRegistrationCustomizer> customizers;
     private final KafkaConsumerRegistrar registrar;
-    private Map<Class<?>, KafkaConsumerRegistration> consumers;
 
     @PostConstruct
     public void postConstruct() throws NoSuchMethodException {
 
+        Map<Class<?>, KafkaConsumerRegistration> consumers = new HashMap<>();
         Reflections reflections = new Reflections("com.pablodev");
         Set<Class<?>> subscriberClasses = reflections.getTypesAnnotatedWith(DomainSubscriber.class);
 
@@ -41,14 +42,13 @@ public class KafkaConsumerRegistry {
 
             consumers.put(subscriberClass, consumerRegistration);
 
-            customizers.forEach(customizer ->
-                    customizer.customize(consumers)
-            );
-
-            consumers.values().stream().toList();
-
-
         }
+
+        customizers.forEach(customizer ->
+                customizer.customize(consumers)
+        );
+
+        registrar.registerKafkaConsumers(consumers.values().stream().toList());
 
     }
 

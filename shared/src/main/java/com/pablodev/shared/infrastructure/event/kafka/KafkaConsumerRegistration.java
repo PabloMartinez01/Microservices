@@ -14,6 +14,5 @@ public class KafkaConsumerRegistration {
     private String topic;
     private String groupId;
     private List<String> partitions;
-
-
+    
 }

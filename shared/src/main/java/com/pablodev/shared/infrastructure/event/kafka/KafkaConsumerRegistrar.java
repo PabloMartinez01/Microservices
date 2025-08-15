@@ -32,7 +32,7 @@ public class KafkaConsumerRegistrar {
             registerKafkaConsumer(consumer);
         }
     }
-    
+
     public void registerKafkaConsumer(KafkaConsumerRegistration consumerRegistration)
             throws NoSuchMethodException {
 
@@ -54,6 +54,7 @@ public class KafkaConsumerRegistrar {
         endpoint.setMessageHandlerMethodFactory(methodFactory);
         endpoint.setBean(applicationContext.getBean(subscriberClass));
         endpoint.setMethod(subscriberClass.getMethod("on", eventClass));
+
         registry.registerListenerContainer(endpoint, kafkaListenerContainerFactory);
 
     }

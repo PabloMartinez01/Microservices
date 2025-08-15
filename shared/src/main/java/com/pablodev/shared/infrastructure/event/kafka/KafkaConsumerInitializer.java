@@ -34,18 +34,13 @@ public class KafkaConsumerInitializer {
             DomainSubscriber subscriberAnnotation = subscriberClass.getAnnotation(DomainSubscriber.class);
             Class<? extends DomainEvent> eventClass = subscriberAnnotation.value();
 
-            MethodKafkaListenerEndpoint<String, DomainEvent> endpoint = listenerEndpointFactory.defaultListenerEndpoint(
-                    subscriberClass, eventClass);
-
+            MethodKafkaListenerEndpoint<String, DomainEvent> endpoint =
+                    listenerEndpointFactory.defaultListenerEndpoint(subscriberClass, eventClass);
             consumers.put(subscriberClass, endpoint);
-            registrar.registerEndpoint(endpoint);
-
         }
 
-//        customizers.forEach(customizer ->
-//                customizer.customize(consumers)
-//        );
-
+        customizers.forEach(customizer -> customizer.customize(consumers));
+        consumers.values().forEach(registrar::registerEndpoint);
     }
 
 

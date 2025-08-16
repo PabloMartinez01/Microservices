@@ -4,65 +4,72 @@ import com.pablodev.shared.domain.event.DomainEvent;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.config.MethodKafkaListenerEndpoint;
 import org.springframework.stereotype.Component;
 
-@Component
-public abstract class KafkaListenerEndpointCustomizer {
 
-    private Map<Class<?>, MethodKafkaListenerEndpoint<String, DomainEvent>> listeners;
+@RequiredArgsConstructor
+public class KafkaListenerEndpointCustomizer {
+
+    private final Consumer<KafkaListenerEndpointsConfigurer> consumer;
 
     public void customize(Map<Class<?>, MethodKafkaListenerEndpoint<String, DomainEvent>> listeners) {
-        this.listeners = listeners;
-        customize(new KafkaListenerEndpointConfigurer(listeners));
+        consumer.accept(new KafkaListenerEndpointsConfigurer(listeners));
     }
 
-    public abstract void customize(KafkaListenerEndpointConfigurer configurer);
 
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Component
+    public static class KafkaListenerEndpointCustomizerBuilder {
+
+        private Consumer<KafkaListenerEndpointsConfigurer> consumer;
+
+        public KafkaListenerEndpointCustomizerBuilder configureListeners(
+                Consumer<KafkaListenerEndpointsConfigurer> consumer) {
+            return new KafkaListenerEndpointCustomizerBuilder(consumer);
+        }
+
+        public KafkaListenerEndpointCustomizer build() {
+            return new KafkaListenerEndpointCustomizer(consumer);
+        }
+
+    }
+
+    @RequiredArgsConstructor
+    public static class KafkaListenerEndpointsConfigurer {
+
+        private final Map<Class<?>, MethodKafkaListenerEndpoint<String, DomainEvent>> listeners;
+
+        public KafkaListenerEndpointConfigurer listener(Class<?> clazz) {
+            MethodKafkaListenerEndpoint<String, DomainEvent> listener =
+                    Optional.ofNullable(listeners.get(clazz)).orElseThrow(
+                            () -> new RuntimeException("No listener found for class: " + clazz.getName()));
+            return new KafkaListenerEndpointConfigurer(this, listener);
+        }
+
+    }
 
     @RequiredArgsConstructor
     public static class KafkaListenerEndpointConfigurer {
 
-        private final Map<Class<?>, MethodKafkaListenerEndpoint<String, DomainEvent>> listeners;
-
-        public void configureListeners(Consumer<KafkaListenerEndpointsConfiguration> consumer) {
-            consumer.accept(new KafkaListenerEndpointsConfiguration(listeners));
-        }
-
-    }
-
-    @RequiredArgsConstructor
-    public static class KafkaListenerEndpointsConfiguration {
-
-        private final Map<Class<?>, MethodKafkaListenerEndpoint<String, DomainEvent>> listeners;
-
-        public KafkaListenerEndpointConfiguration listener(Class<?> clazz) {
-            MethodKafkaListenerEndpoint<String, DomainEvent> listener =
-                    Optional.ofNullable(listeners.get(clazz)).orElseThrow(
-                            () -> new RuntimeException("No listener found for class: " + clazz.getName()));
-            return new KafkaListenerEndpointConfiguration(this, listener);
-        }
-
-    }
-
-    @RequiredArgsConstructor
-    public static class KafkaListenerEndpointConfiguration {
-
-        private final KafkaListenerEndpointsConfiguration listenersConfigurer;
+        private final KafkaListenerEndpointsConfigurer listenersConfigurer;
         private final MethodKafkaListenerEndpoint<String, DomainEvent> listener;
 
-        public KafkaListenerEndpointConfiguration groupId(String groupId) {
+        public KafkaListenerEndpointConfigurer groupId(String groupId) {
             listener.setGroupId(groupId);
             return this;
         }
 
-        public KafkaListenerEndpointConfiguration concurrency(int concurrency) {
+        public KafkaListenerEndpointConfigurer concurrency(int concurrency) {
             listener.setConcurrency(concurrency);
             return this;
         }
 
-        public KafkaListenerEndpointConfiguration listener(Class<?> clazz) {
+        public KafkaListenerEndpointConfigurer listener(Class<?> clazz) {
             return listenersConfigurer.listener(clazz);
         }
 

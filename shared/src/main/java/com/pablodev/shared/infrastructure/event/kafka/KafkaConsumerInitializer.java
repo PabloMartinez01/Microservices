@@ -39,7 +39,6 @@ public class KafkaConsumerInitializer {
             consumers.put(subscriberClass, endpoint);
         }
 
-        customizers.forEach(customizer -> customizer.customize(consumers));
         consumers.values().forEach(registrar::registerEndpoint);
     }
 

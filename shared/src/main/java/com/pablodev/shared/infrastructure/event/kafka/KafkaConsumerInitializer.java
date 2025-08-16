@@ -2,10 +2,11 @@ package com.pablodev.shared.infrastructure.event.kafka;
 
 import com.pablodev.shared.domain.event.DomainEvent;
 import com.pablodev.shared.domain.event.DomainSubscriber;
+import com.pablodev.shared.infrastructure.event.kafka.customization.KafkaListenerEndpointCustomizer;
 import jakarta.annotation.PostConstruct;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.reflections.Reflections;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class KafkaConsumerInitializer {
 
-    private final List<KafkaListenerEndpointCustomizer> customizers;
+    private final Optional<KafkaListenerEndpointCustomizer> customizer;
     private final KafkaListenerEndpointRegistrar registrar;
     private final KafkaListenerEndpointFactory listenerEndpointFactory;
 
@@ -39,6 +40,7 @@ public class KafkaConsumerInitializer {
             consumers.put(subscriberClass, endpoint);
         }
 
+        customizer.ifPresent(c -> c.customize(consumers));
         consumers.values().forEach(registrar::registerEndpoint);
     }
 

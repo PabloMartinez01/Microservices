@@ -2,14 +2,13 @@ package com.pablodev.organizationservice.organization.infrastructure.event;
 
 import com.pablodev.organizationservice.organization.application.user.CreateInternalUserOnUserCreated;
 import com.pablodev.shared.domain.event.MockOnUserCreated;
-import com.pablodev.shared.infrastructure.event.kafka.KafkaListenerEndpointCustomizer;
-import com.pablodev.shared.infrastructure.event.kafka.KafkaListenerEndpointCustomizer.KafkaListenerEndpointCustomizerBuilder;
+import com.pablodev.shared.infrastructure.event.kafka.customization.KafkaListenerEndpointCustomizer;
+import com.pablodev.shared.infrastructure.event.kafka.customization.KafkaListenerEndpointCustomizerBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class KafkaListenerConfiguration {
-
 
     // @formatter:off
     @Bean

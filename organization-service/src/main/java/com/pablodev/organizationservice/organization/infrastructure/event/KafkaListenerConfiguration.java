@@ -1,7 +1,6 @@
 package com.pablodev.organizationservice.organization.infrastructure.event;
 
-import com.pablodev.organizationservice.organization.application.user.CreateInternalUserOnUserCreated;
-import com.pablodev.shared.domain.event.MockOnUserCreated;
+import com.pablodev.organizationservice.organization.application.test.OrganizationSubscriber;
 import com.pablodev.shared.infrastructure.event.kafka.customization.KafkaListenerEndpointCustomizer;
 import com.pablodev.shared.infrastructure.event.kafka.customization.KafkaListenerEndpointCustomizerBuilder;
 import org.springframework.context.annotation.Bean;
@@ -14,10 +13,8 @@ public class KafkaListenerConfiguration {
     @Bean
     public KafkaListenerEndpointCustomizer kafkaListenerEndpointCustomizer(KafkaListenerEndpointCustomizerBuilder builder) {
         return builder.configureListeners(listeners -> listeners
-                .listener(CreateInternalUserOnUserCreated.class)
-                    .groupId("organization-service")
-                    .concurrency(2)
-                .listener(MockOnUserCreated.class))
+                .listener(OrganizationSubscriber.class)
+                        .groupId("pablodev.microservices.organization.organization.organization_subscriber"))
                 .build();
     }
     // @formatter:on

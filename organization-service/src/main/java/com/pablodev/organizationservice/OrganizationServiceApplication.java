@@ -1,7 +1,8 @@
 package com.pablodev.organizationservice;
 
+import com.pablodev.organizationservice.organization.application.test.OrganizationCreateEvent;
+import com.pablodev.organizationservice.organization.application.test.OrganizationDeleteEvent;
 import com.pablodev.shared.domain.event.EventBus;
-import com.pablodev.shared.domain.event.MockUserCreatedDomainEvent;
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -21,7 +22,10 @@ public class OrganizationServiceApplication {
     @Bean
     public CommandLineRunner commandLineRunner(EventBus eventBus) {
         return args -> {
-            eventBus.publish(List.of(new MockUserCreatedDomainEvent("pepito@gmail.com")));
+            eventBus.publish(List.of(
+                    new OrganizationCreateEvent(),
+                    new OrganizationDeleteEvent()
+            ));
         };
     }
 

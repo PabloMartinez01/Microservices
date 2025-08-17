@@ -37,6 +37,7 @@ public class KafkaConsumerInitializer {
 
             MethodKafkaListenerEndpoint<String, DomainEvent> endpoint =
                     listenerEndpointFactory.defaultListenerEndpoint(subscriberClass, eventClass);
+
             consumers.put(subscriberClass, endpoint);
         }
 

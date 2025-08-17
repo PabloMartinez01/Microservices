@@ -4,7 +4,6 @@ import com.pablodev.shared.domain.event.DomainEvent;
 import com.pablodev.shared.domain.event.DomainSubscriber;
 import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,7 @@ public class DomainEventSubscribersRegistry {
             Class<? extends DomainEvent> event = subscriber.getAnnotation(DomainSubscriber.class).value();
 
             DomainEventSubscriberInformation subscription =
-                    new DomainEventSubscriberInformation(subscriber, Collections.singletonList(event));
+                    new DomainEventSubscriberInformation(subscriber, event);
 
             addIndexedEventSubscriber(event, subscription);
             this.subscribersByClass.put(subscriber, subscription);
@@ -40,8 +39,8 @@ public class DomainEventSubscribersRegistry {
 
     private void addIndexedEventSubscriber(Class<? extends DomainEvent> event,
             DomainEventSubscriberInformation subscription) {
-        List<DomainEventSubscriberInformation> list = subscribersByEvent.computeIfAbsent(event,
-                k -> new ArrayList<>());
+        List<DomainEventSubscriberInformation> list =
+                subscribersByEvent.computeIfAbsent(event, _ -> new ArrayList<>());
         if (!list.contains(subscription)) {
             list.add(subscription);
         }

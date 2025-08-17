@@ -7,17 +7,18 @@ import lombok.Getter;
 @Getter
 public class DomainEventSubscriberInformation {
 
-    private final Class<?> subscriber;
-    private final Class<? extends DomainEvent> events;
+    private final Class<?> subscriberClass;
+    private final Class<? extends DomainEvent> eventClass;
 
-    public DomainEventSubscriberInformation(Class<?> subscriber, Class<? extends DomainEvent> events) {
+    public DomainEventSubscriberInformation(Class<?> subscriberClass,
+            Class<? extends DomainEvent> eventClass) {
 
-        if (subscriber.getAnnotation(DomainSubscriber.class) == null) {
+        if (subscriberClass.getAnnotation(DomainSubscriber.class) == null) {
             throw new IllegalArgumentException("Subscriber must be annotated with @DomainSubscriber");
         }
 
-        this.subscriber = subscriber;
-        this.events = events;
+        this.subscriberClass = subscriberClass;
+        this.eventClass = eventClass;
     }
 
 }

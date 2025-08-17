@@ -1,15 +1,14 @@
 package com.pablodev.shared.infrastructure.event.kafka;
 
 import com.pablodev.shared.domain.event.DomainEvent;
-import com.pablodev.shared.domain.event.DomainSubscriber;
+import com.pablodev.shared.infrastructure.event.DomainEventSubscriberInformation;
+import com.pablodev.shared.infrastructure.event.DomainEventSubscribersRegistry;
 import com.pablodev.shared.infrastructure.event.kafka.customization.KafkaListenerEndpointCustomizer;
 import jakarta.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
-import org.reflections.Reflections;
 import org.springframework.kafka.config.KafkaListenerEndpointRegistrar;
 import org.springframework.kafka.config.MethodKafkaListenerEndpoint;
 import org.springframework.stereotype.Component;
@@ -18,31 +17,25 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class KafkaConsumerInitializer {
 
-    private final Optional<KafkaListenerEndpointCustomizer> customizer;
-    private final KafkaListenerEndpointRegistrar registrar;
-    private final KafkaListenerEndpointFactory listenerEndpointFactory;
+    private final Optional<KafkaListenerEndpointCustomizer> listenerCustomizer;
+    private final KafkaListenerEndpointRegistrar listenerRegistrar;
+    private final KafkaListenerEndpointFactory listenerFactory;
+    private final DomainEventSubscribersRegistry subscribersRegistry;
 
     @PostConstruct
     public void postConstruct() throws NoSuchMethodException {
 
         Map<Class<?>, MethodKafkaListenerEndpoint<String, DomainEvent>> consumers = new HashMap<>();
 
-        Reflections reflections = new Reflections("com.pablodev");
-        Set<Class<?>> subscriberClasses = reflections.getTypesAnnotatedWith(DomainSubscriber.class);
+        for (DomainEventSubscriberInformation subscriber : subscribersRegistry.getSubscribers()) {
+            Class<?> subscriberClass = subscriber.getSubscriberClass();
+            MethodKafkaListenerEndpoint<String, DomainEvent> listener =
+                    listenerFactory.defaultListenerEndpoint(subscriberClass, subscriber.getEventClass());
 
-        for (Class<?> subscriberClass : subscriberClasses) {
-
-            DomainSubscriber subscriberAnnotation = subscriberClass.getAnnotation(DomainSubscriber.class);
-            Class<? extends DomainEvent> eventClass = subscriberAnnotation.value();
-
-            MethodKafkaListenerEndpoint<String, DomainEvent> endpoint =
-                    listenerEndpointFactory.defaultListenerEndpoint(subscriberClass, eventClass);
-
-            consumers.put(subscriberClass, endpoint);
+            consumers.put(subscriberClass, listener);
         }
-
-        customizer.ifPresent(c -> c.customize(consumers));
-        consumers.values().forEach(registrar::registerEndpoint);
+        listenerCustomizer.ifPresent(customizer -> customizer.customize(consumers));
+        consumers.values().forEach(listenerRegistrar::registerEndpoint);
     }
 
 

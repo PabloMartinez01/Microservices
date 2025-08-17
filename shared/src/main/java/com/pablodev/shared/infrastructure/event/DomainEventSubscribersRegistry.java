@@ -49,11 +49,11 @@ public class DomainEventSubscribersRegistry {
 
     public List<Class<?>> getSubscribersForEvent(Class<? extends DomainEvent> event) {
         return subscribersByEvent.get(event).stream()
-                .map(DomainEventSubscriberInformation::getSubscriber)
+                .map(DomainEventSubscriberInformation::getSubscriberClass)
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    public List<DomainEventSubscriberInformation> getSubscribersByClass() {
+    public List<DomainEventSubscriberInformation> getSubscribers() {
         return subscribersByClass.values().stream().toList();
     }
 

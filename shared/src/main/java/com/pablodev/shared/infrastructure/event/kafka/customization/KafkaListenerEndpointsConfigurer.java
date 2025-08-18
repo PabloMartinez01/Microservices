@@ -1,6 +1,7 @@
 package com.pablodev.shared.infrastructure.event.kafka.customization;
 
 import com.pablodev.shared.domain.event.DomainEvent;
+import com.pablodev.shared.infrastructure.event.kafka.exception.ListenerNotFoundException;
 import java.util.Map;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -13,9 +14,7 @@ public class KafkaListenerEndpointsConfigurer {
 
     public KafkaListenerEndpointConfigurer listener(Class<?> clazz) {
         MethodKafkaListenerEndpoint<String, DomainEvent> listener = Optional.ofNullable(listeners.get(clazz))
-                .orElseThrow(() -> new RuntimeException(
-                        "No listener found for class: %s".formatted(clazz.getName())));
-        
+                .orElseThrow(() -> new ListenerNotFoundException(clazz.getName()));
         return new KafkaListenerEndpointConfigurer(this, listener);
     }
 

@@ -6,6 +6,6 @@ public class OrganizationDomainEvent extends DomainEvent {
 
     @Override
     public String getEventName() {
-        return "pablodev.microservices.organization.organization.*";
+        return "organization.*";
     }
 }

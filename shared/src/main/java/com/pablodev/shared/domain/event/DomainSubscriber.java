@@ -11,5 +11,5 @@ import org.springframework.stereotype.Component;
 @Target(ElementType.TYPE)
 public @interface DomainSubscriber {
 
-    Class<? extends DomainEvent> value();
+    Class<?> value();
 }

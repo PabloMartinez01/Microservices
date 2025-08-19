@@ -1,6 +1,6 @@
 package com.pablodev.shared.infrastructure.event;
 
-import com.pablodev.shared.domain.event.DomainEvent;
+import com.pablodev.shared.domain.event.AbstractDomainEvent;
 import com.pablodev.shared.domain.event.DomainSubscriber;
 import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class DomainEventSubscribersRegistry {
 
     private final Map<Class<?>, DomainEventSubscriberInformation> subscribersByClass = new HashMap<>();
-    private final Map<Class<? extends DomainEvent>, List<DomainEventSubscriberInformation>> subscribersByEvent = new HashMap<>();
+    private final Map<Class<? extends AbstractDomainEvent>, List<DomainEventSubscriberInformation>> subscribersByEvent = new HashMap<>();
 
     @PostConstruct
     public void postConstruct() {
@@ -25,7 +25,8 @@ public class DomainEventSubscribersRegistry {
         Set<Class<?>> subscribers = reflections.getTypesAnnotatedWith(DomainSubscriber.class);
 
         for (Class<?> subscriber : subscribers) {
-            Class<? extends DomainEvent> event = subscriber.getAnnotation(DomainSubscriber.class).value();
+            Class<? extends AbstractDomainEvent> event = subscriber.getAnnotation(
+                    DomainSubscriber.class).value();
 
             DomainEventSubscriberInformation subscription =
                     new DomainEventSubscriberInformation(subscriber, event);
@@ -37,7 +38,7 @@ public class DomainEventSubscribersRegistry {
 
     }
 
-    private void addIndexedEventSubscriber(Class<? extends DomainEvent> event,
+    private void addIndexedEventSubscriber(Class<? extends AbstractDomainEvent> event,
             DomainEventSubscriberInformation subscription) {
         List<DomainEventSubscriberInformation> list =
                 subscribersByEvent.computeIfAbsent(event, _ -> new ArrayList<>());
@@ -47,7 +48,7 @@ public class DomainEventSubscribersRegistry {
     }
 
 
-    public List<Class<?>> getSubscribersForEvent(Class<? extends DomainEvent> event) {
+    public List<Class<?>> getSubscribersForEvent(Class<? extends AbstractDomainEvent> event) {
         return subscribersByEvent.get(event).stream()
                 .map(DomainEventSubscriberInformation::getSubscriberClass)
                 .collect(Collectors.toUnmodifiableList());

@@ -1,6 +1,6 @@
 package com.pablodev.shared.infrastructure.event.kafka;
 
-import com.pablodev.shared.domain.event.DomainEvent;
+import com.pablodev.shared.domain.event.AbstractDomainEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,7 @@ import org.springframework.messaging.handler.annotation.support.DefaultMessageHa
 public class KafkaConfiguration {
 
     private final KafkaListenerEndpointRegistry registry;
-    private final KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, DomainEvent>> kafkaListenerContainerFactory;
+    private final KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, AbstractDomainEvent>> kafkaListenerContainerFactory;
 
     @Bean
     public DefaultMessageHandlerMethodFactory defaultMessageHandlerMethodFactory() {

@@ -1,6 +1,6 @@
 package com.pablodev.shared.infrastructure.event.kafka.customization;
 
-import com.pablodev.shared.domain.event.DomainEvent;
+import com.pablodev.shared.domain.event.AbstractDomainEvent;
 import lombok.AllArgsConstructor;
 import org.springframework.kafka.config.MethodKafkaListenerEndpoint;
 
@@ -8,7 +8,7 @@ import org.springframework.kafka.config.MethodKafkaListenerEndpoint;
 public class KafkaListenerEndpointConfigurer {
 
     private final KafkaListenerEndpointsConfigurer listenersConfigurer;
-    private final MethodKafkaListenerEndpoint<String, DomainEvent> listener;
+    private final MethodKafkaListenerEndpoint<String, AbstractDomainEvent> listener;
 
     public KafkaListenerEndpointConfigurer groupId(String groupId) {
         listener.setGroupId(groupId);

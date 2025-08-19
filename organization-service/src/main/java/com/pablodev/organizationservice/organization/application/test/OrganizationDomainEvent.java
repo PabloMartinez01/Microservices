@@ -1,11 +1,10 @@
 package com.pablodev.organizationservice.organization.application.test;
 
+import com.pablodev.shared.domain.event.AbstractDomainEvent;
 import com.pablodev.shared.domain.event.DomainEvent;
 
-public class OrganizationDomainEvent extends DomainEvent {
+@DomainEvent(name = "organization_service.organization.*")
+public class OrganizationDomainEvent extends AbstractDomainEvent {
 
-    @Override
-    public String getEventName() {
-        return "organization.*";
-    }
+
 }

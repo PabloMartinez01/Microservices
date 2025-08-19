@@ -1,6 +1,6 @@
 package com.pablodev.shared.infrastructure.event.kafka;
 
-import com.pablodev.shared.domain.event.DomainEvent;
+import com.pablodev.shared.domain.event.AbstractDomainEvent;
 import com.pablodev.shared.infrastructure.event.DomainEventsRegistry;
 import java.util.Properties;
 import java.util.UUID;
@@ -24,21 +24,21 @@ public class KafkaListenerEndpointFactory {
     private final DefaultMessageHandlerMethodFactory methodFactory;
     private final DomainEventsRegistry eventsRegistry;
 
-    private static Properties defaultProperties(Class<? extends DomainEvent> eventClass) {
+    private static Properties defaultProperties(Class<? extends AbstractDomainEvent> eventClass) {
         Properties properties = new Properties();
         properties.setProperty(JsonDeserializer.VALUE_DEFAULT_TYPE, eventClass.getName());
         return properties;
     }
 
-    public MethodKafkaListenerEndpoint<String, DomainEvent> defaultListenerEndpoint(
+    public MethodKafkaListenerEndpoint<String, AbstractDomainEvent> defaultListenerEndpoint(
             Class<?> subscriberClass,
-            Class<? extends DomainEvent> eventClass
+            Class<? extends AbstractDomainEvent> eventClass
     ) throws NoSuchMethodException {
 
         String groupId = kafkaProperties.getConsumer().getGroupId();
         String topic = eventsRegistry.getEventNameOf(eventClass);
 
-        MethodKafkaListenerEndpoint<String, DomainEvent> endpoint = new MethodKafkaListenerEndpoint<>();
+        MethodKafkaListenerEndpoint<String, AbstractDomainEvent> endpoint = new MethodKafkaListenerEndpoint<>();
         endpoint.setId(UUID.randomUUID().toString());
         endpoint.setGroupId(groupId);
         endpoint.setAutoStartup(true);
@@ -53,7 +53,7 @@ public class KafkaListenerEndpointFactory {
     }
 
     private void registerTopicOrPattern(String topic,
-            MethodKafkaListenerEndpoint<String, DomainEvent> endpoint) {
+            MethodKafkaListenerEndpoint<String, AbstractDomainEvent> endpoint) {
         if (isTopicPattern(topic)) {
             endpoint.setTopicPattern(Pattern.compile(topic));
         } else {

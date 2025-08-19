@@ -1,9 +1,9 @@
 package com.pablodev.organizationservice.organization.application.test;
 
 import com.pablodev.shared.domain.event.DomainEvent;
-import com.pablodev.shared.domain.event.DomainEventAnnotation;
+import com.pablodev.shared.domain.event.DomainEventDestination;
 
-@DomainEventAnnotation(name = "organization_service.organization.*")
+@DomainEventDestination(value = "organization_service.organization.*")
 public class OrganizationDomainEvent extends DomainEvent {
 
 

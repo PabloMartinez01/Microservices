@@ -1,7 +1,7 @@
 package com.pablodev.shared.infrastructure.event;
 
 import com.pablodev.shared.domain.event.DomainEvent;
-import com.pablodev.shared.domain.event.DomainEventAnnotation;
+import com.pablodev.shared.domain.event.DomainEventDestination;
 import com.pablodev.shared.domain.event.DomainSubscriber;
 import java.util.Optional;
 import lombok.Getter;
@@ -29,7 +29,7 @@ public class DomainEventSubscriberInformation {
     }
 
     private static void ensureEventHasAnnotation(Class<? extends DomainEvent> eventClass) {
-        Optional.ofNullable(eventClass.getAnnotation(DomainEventAnnotation.class))
+        Optional.ofNullable(eventClass.getAnnotation(DomainEventDestination.class))
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Event must be annotated with @DomainEventAnnotation"));
     }

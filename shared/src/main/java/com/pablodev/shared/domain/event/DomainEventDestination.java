@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface DomainEventAnnotation {
+public @interface DomainEventDestination {
 
-    String name();
+    String value();
 }

@@ -1,8 +1,8 @@
 package com.pablodev.organizationservice.organization.application.test;
 
-import com.pablodev.shared.domain.event.DomainEventAnnotation;
+import com.pablodev.shared.domain.event.DomainEventDestination;
 
-@DomainEventAnnotation(name = "organization_service.organization.delete")
+@DomainEventDestination(value = "organization_service.organization.delete")
 public class OrganizationDeleteEvent extends OrganizationDomainEvent {
 
 

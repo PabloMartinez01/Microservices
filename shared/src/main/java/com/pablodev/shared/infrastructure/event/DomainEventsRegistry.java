@@ -1,7 +1,7 @@
 package com.pablodev.shared.infrastructure.event;
 
 import com.pablodev.shared.domain.event.DomainEvent;
-import com.pablodev.shared.domain.event.DomainEventAnnotation;
+import com.pablodev.shared.domain.event.DomainEventDestination;
 import com.pablodev.shared.infrastructure.event.exceptions.DomainEventNotFoundException;
 import jakarta.annotation.PostConstruct;
 import java.util.HashMap;
@@ -21,8 +21,8 @@ public class DomainEventsRegistry {
 
         reflections.getSubTypesOf(DomainEvent.class).forEach(eventClass -> {
 
-            String eventName = Optional.ofNullable(eventClass.getAnnotation(DomainEventAnnotation.class))
-                    .map(DomainEventAnnotation::name)
+            String eventName = Optional.ofNullable(eventClass.getAnnotation(DomainEventDestination.class))
+                    .map(DomainEventDestination::value)
                     .orElseThrow(() -> new IllegalArgumentException(
                             "Domain event should be annotated with @DomainEventAnnotation"));
 

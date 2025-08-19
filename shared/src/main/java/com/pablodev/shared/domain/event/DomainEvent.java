@@ -1,13 +1,24 @@
 package com.pablodev.shared.domain.event;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.time.LocalDateTime;
+import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface DomainEvent {
+@Getter
+@AllArgsConstructor
 
-    String name();
+public abstract class DomainEvent {
+
+    private String id;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private LocalDateTime timestamp;
+
+    protected DomainEvent() {
+        this.id = UUID.randomUUID().toString();
+        this.timestamp = LocalDateTime.now();
+    }
+
 }

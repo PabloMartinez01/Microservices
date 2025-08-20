@@ -8,7 +8,6 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import org.reflections.Reflections;
 import org.springframework.stereotype.Component;
 
@@ -20,25 +19,23 @@ public class DomainSubscribersRegistry {
     @PostConstruct
     @SuppressWarnings({"unchecked"})
     public void postConstruct() {
-        for (Class<? extends DomainSubscriber<?>> subscriberClass : getDomainSubscribers()) {
-            for (Type type : subscriberClass.getGenericInterfaces()) {
-                if (isDomainSubscriberInterface(type)) {
-                    Type eventType = ((ParameterizedType) type).getActualTypeArguments()[0];
-                    if (eventType instanceof Class<?>) {
-                        DomainSubscriberInformation subscription = new DomainSubscriberInformation(
-                                subscriberClass, (Class<? extends DomainEvent>) eventType);
-                        subscribersByClass.put(subscriberClass, subscription);
-                    }
+        Reflections reflections = new Reflections("com.pablodev");
+        reflections.getSubTypesOf((Class<DomainSubscriber<?>>) (Class<?>) DomainSubscriber.class)
+                .forEach(this::registerDomainSubscriberClass);
+    }
+
+    @SuppressWarnings({"unchecked"})
+    private void registerDomainSubscriberClass(Class<? extends DomainSubscriber<?>> subscriberClass) {
+        for (Type type : subscriberClass.getGenericInterfaces()) {
+            if (isDomainSubscriberInterface(type)) {
+                Type eventType = ((ParameterizedType) type).getActualTypeArguments()[0];
+                if (eventType instanceof Class<?>) {
+                    DomainSubscriberInformation subscription = new DomainSubscriberInformation(
+                            subscriberClass, (Class<? extends DomainEvent>) eventType);
+                    subscribersByClass.put(subscriberClass, subscription);
                 }
             }
         }
-
-    }
-
-    @SuppressWarnings("unchecked")
-    private Set<Class<? extends DomainSubscriber<?>>> getDomainSubscribers() {
-        Reflections reflections = new Reflections("com.pablodev");
-        return reflections.getSubTypesOf((Class<DomainSubscriber<?>>) (Class<?>) DomainSubscriber.class);
     }
 
     private boolean isDomainSubscriberInterface(Type type) {
@@ -46,10 +43,8 @@ public class DomainSubscribersRegistry {
                 && parameterizedType.getRawType() == DomainSubscriber.class;
     }
 
-
     public List<DomainSubscriberInformation> getSubscribers() {
         return subscribersByClass.values().stream().toList();
     }
-
 
 }

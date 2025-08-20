@@ -25,7 +25,7 @@ public class DomainSubscriberInformation {
     private static void ensureEventHasAnnotation(Class<? extends DomainEvent> eventClass) {
         Optional.ofNullable(eventClass.getAnnotation(DomainEventDestination.class))
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Event must be annotated with @DomainEventAnnotation"));
+                        "Event must be annotated with @DomainEventDestination"));
     }
 
 }

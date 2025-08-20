@@ -18,17 +18,12 @@ public class DomainEventsRegistry {
     @PostConstruct
     public void postConstruct() {
         Reflections reflections = new Reflections("com.pablodev");
-
-        reflections.getSubTypesOf(DomainEvent.class).forEach(eventClass -> {
-
-            String eventName = Optional.ofNullable(eventClass.getAnnotation(DomainEventDestination.class))
+        for (Class<? extends DomainEvent> eventClass : reflections.getSubTypesOf(DomainEvent.class)) {
+            String destination = Optional.ofNullable(eventClass.getAnnotation(DomainEventDestination.class))
                     .map(DomainEventDestination::value)
-                    .orElseThrow(() -> new IllegalArgumentException(
-                            "Domain event should be annotated with @DomainEventAnnotation"));
-
-            events.put(eventClass, eventName);
-
-        });
+                    .orElse(null);
+            events.put(eventClass, destination);
+        }
     }
 
     public String getEventNameOf(Class<? extends DomainEvent> event) {

@@ -1,8 +1,8 @@
 package com.pablodev.shared.infrastructure.event.kafka;
 
 import com.pablodev.shared.domain.event.DomainEvent;
-import com.pablodev.shared.infrastructure.event.DomainEventSubscriberInformation;
-import com.pablodev.shared.infrastructure.event.DomainEventSubscribersRegistry;
+import com.pablodev.shared.infrastructure.event.DomainSubscriberInformation;
+import com.pablodev.shared.infrastructure.event.DomainSubscribersRegistry;
 import com.pablodev.shared.infrastructure.event.kafka.customization.KafkaListenerEndpointCustomizer;
 import jakarta.annotation.PostConstruct;
 import java.util.HashMap;
@@ -20,14 +20,14 @@ public class KafkaConsumerInitializer {
     private final Optional<KafkaListenerEndpointCustomizer> listenerCustomizer;
     private final KafkaListenerEndpointRegistrar listenerRegistrar;
     private final KafkaListenerEndpointFactory listenerFactory;
-    private final DomainEventSubscribersRegistry subscribersRegistry;
+    private final DomainSubscribersRegistry subscribersRegistry;
 
     @PostConstruct
     public void postConstruct() throws NoSuchMethodException {
 
         Map<Class<?>, MethodKafkaListenerEndpoint<String, DomainEvent>> consumers = new HashMap<>();
 
-        for (DomainEventSubscriberInformation subscriber : subscribersRegistry.getSubscribers()) {
+        for (DomainSubscriberInformation subscriber : subscribersRegistry.getSubscribers()) {
             Class<?> subscriberClass = subscriber.getSubscriberClass();
             MethodKafkaListenerEndpoint<String, DomainEvent> listener =
                     listenerFactory.defaultListenerEndpoint(subscriberClass, subscriber.getEventClass());

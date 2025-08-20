@@ -2,6 +2,7 @@ package com.pablodev.shared.infrastructure.event;
 
 import com.pablodev.shared.domain.event.DomainEvent;
 import com.pablodev.shared.domain.event.DomainEventDestination;
+import com.pablodev.shared.infrastructure.event.exceptions.DomainEventDestinationNotFound;
 import com.pablodev.shared.infrastructure.event.exceptions.DomainEventNotFoundException;
 import jakarta.annotation.PostConstruct;
 import java.util.HashMap;
@@ -26,9 +27,14 @@ public class DomainEventsRegistry {
         }
     }
 
-    public String getEventNameOf(Class<? extends DomainEvent> event) {
-        return Optional.ofNullable(events.get(event))
-                .orElseThrow(() -> new DomainEventNotFoundException(event.getName()));
+    public String getEventNameOf(Class<? extends DomainEvent> eventClass) {
+
+        if (!events.containsKey(eventClass)) {
+            throw new DomainEventNotFoundException(eventClass.getName());
+        }
+
+        return Optional.ofNullable(events.get(eventClass))
+                .orElseThrow(() -> new DomainEventDestinationNotFound(eventClass.getName()));
     }
 
 }

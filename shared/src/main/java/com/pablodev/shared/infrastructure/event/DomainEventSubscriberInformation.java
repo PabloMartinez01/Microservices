@@ -2,7 +2,6 @@ package com.pablodev.shared.infrastructure.event;
 
 import com.pablodev.shared.domain.event.DomainEvent;
 import com.pablodev.shared.domain.event.DomainEventDestination;
-import com.pablodev.shared.domain.event.DomainSubscriber;
 import java.util.Optional;
 import lombok.Getter;
 

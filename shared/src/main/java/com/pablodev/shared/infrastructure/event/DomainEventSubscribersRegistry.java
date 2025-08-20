@@ -1,7 +1,6 @@
 package com.pablodev.shared.infrastructure.event;
 
 import com.pablodev.shared.domain.event.DomainEvent;
-import com.pablodev.shared.domain.event.DomainSubscriber;
 import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.HashMap;

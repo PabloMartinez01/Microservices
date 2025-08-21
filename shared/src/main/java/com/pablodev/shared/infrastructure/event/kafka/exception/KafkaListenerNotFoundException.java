@@ -1,8 +1,8 @@
 package com.pablodev.shared.infrastructure.event.kafka.exception;
 
-public class ListenerNotFoundException extends RuntimeException {
+public class KafkaListenerNotFoundException extends RuntimeException {
 
-    public ListenerNotFoundException(String listenerName) {
+    public KafkaListenerNotFoundException(String listenerName) {
         super("No listener found for class: %s".formatted(listenerName));
     }
 }

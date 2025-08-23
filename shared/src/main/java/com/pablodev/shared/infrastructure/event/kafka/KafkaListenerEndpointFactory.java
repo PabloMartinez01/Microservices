@@ -1,5 +1,6 @@
 package com.pablodev.shared.infrastructure.event.kafka;
 
+import com.pablodev.shared.domain.Utils;
 import com.pablodev.shared.domain.event.DomainEvent;
 import com.pablodev.shared.infrastructure.event.DomainEventsRegistry;
 import java.util.Properties;
@@ -34,7 +35,7 @@ public class KafkaListenerEndpointFactory {
             Class<? extends DomainEvent> eventClass
     ) throws NoSuchMethodException {
 
-        String groupId = kafkaProperties.getConsumerPrefix() + "." + subscriberClass.getSimpleName();
+        String groupId = getGroupId(subscriberClass);
         String topic = eventsRegistry.getEventNameOf(eventClass);
 
         MethodKafkaListenerEndpoint<String, DomainEvent> endpoint = new MethodKafkaListenerEndpoint<>();
@@ -49,6 +50,11 @@ public class KafkaListenerEndpointFactory {
         registerTopicOrPattern(topic, endpoint);
 
         return endpoint;
+    }
+
+    private String getGroupId(Class<?> subscriberClass) {
+        String groupId = kafkaProperties.getConsumerPrefix() + "." + subscriberClass.getSimpleName();
+        return Utils.toSnakeCase(groupId);
     }
 
     private void registerTopicOrPattern(String topic,

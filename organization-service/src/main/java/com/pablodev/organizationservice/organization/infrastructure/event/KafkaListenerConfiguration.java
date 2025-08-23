@@ -14,7 +14,7 @@ public class KafkaListenerConfiguration {
     public KafkaListenerEndpointCustomizer kafkaListenerEndpointCustomizer(KafkaListenerEndpointCustomizerBuilder builder) {
         return builder.configureListeners(listeners -> listeners
                 .listener(OrganizationSubscriber.class)
-                        .groupId("pablodev.microservices.organization.organization.organization_subscriber"))
+                        .groupId("organization_service.custom_group"))
                 .build();
     }
     // @formatter:on

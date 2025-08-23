@@ -6,7 +6,6 @@ import java.util.Properties;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.kafka.config.MethodKafkaListenerEndpoint;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
@@ -20,7 +19,7 @@ public class KafkaListenerEndpointFactory {
     private static final String TOPIC_REGEX = "^[a-zA-Z0-9._-]+$";
 
     private final ApplicationContext applicationContext;
-    private final KafkaProperties kafkaProperties;
+    private final KafkaConfigurationProperties kafkaProperties;
     private final DefaultMessageHandlerMethodFactory methodFactory;
     private final DomainEventsRegistry eventsRegistry;
 
@@ -35,7 +34,7 @@ public class KafkaListenerEndpointFactory {
             Class<? extends DomainEvent> eventClass
     ) throws NoSuchMethodException {
 
-        String groupId = kafkaProperties.getConsumer().getGroupId();
+        String groupId = kafkaProperties.getConsumerPrefix() + "." + subscriberClass.getSimpleName();
         String topic = eventsRegistry.getEventNameOf(eventClass);
 
         MethodKafkaListenerEndpoint<String, DomainEvent> endpoint = new MethodKafkaListenerEndpoint<>();

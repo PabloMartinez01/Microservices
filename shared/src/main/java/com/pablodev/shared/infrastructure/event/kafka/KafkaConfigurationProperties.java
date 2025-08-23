@@ -1,4 +1,4 @@
-package com.pablodev.shared.infrastructure.event;
+package com.pablodev.shared.infrastructure.event.kafka;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,12 +8,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "spring.event")
+@ConfigurationProperties(prefix = "application.kafka")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class DomainEventConfiguration {
+public class KafkaConfigurationProperties {
 
-    private String prefix;
+    private String consumerPrefix;
 }

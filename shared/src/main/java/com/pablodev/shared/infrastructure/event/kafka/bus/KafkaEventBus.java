@@ -1,4 +1,4 @@
-package com.pablodev.shared.infrastructure.event.kafka;
+package com.pablodev.shared.infrastructure.event.kafka.bus;
 
 import com.pablodev.shared.domain.event.DomainEvent;
 import com.pablodev.shared.domain.event.EventBus;

@@ -1,6 +1,7 @@
-package com.pablodev.shared.infrastructure.event.kafka;
+package com.pablodev.shared.infrastructure.event.kafka.registration;
 
 import com.pablodev.shared.domain.event.DomainEvent;
+import com.pablodev.shared.domain.event.DomainSubscriber;
 import com.pablodev.shared.infrastructure.event.DomainSubscriberInformation;
 import com.pablodev.shared.infrastructure.event.DomainSubscribersRegistry;
 import com.pablodev.shared.infrastructure.event.kafka.customization.KafkaListenerEndpointCustomizer;
@@ -28,9 +29,9 @@ public class KafkaConsumerInitializer {
         Map<Class<?>, MethodKafkaListenerEndpoint<String, DomainEvent>> consumers = new HashMap<>();
 
         for (DomainSubscriberInformation subscriber : subscribersRegistry.getSubscribers()) {
-            Class<?> subscriberClass = subscriber.getSubscriberClass();
+            Class<? extends DomainSubscriber<?>> subscriberClass = subscriber.getSubscriberClass();
             MethodKafkaListenerEndpoint<String, DomainEvent> listener =
-                    listenerFactory.defaultListenerEndpoint(subscriberClass, subscriber.getEventClass());
+                    listenerFactory.createListenerEndpoint(subscriberClass, subscriber.getEventClass());
 
             consumers.put(subscriberClass, listener);
         }

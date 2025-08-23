@@ -1,4 +1,4 @@
-package com.pablodev.shared.infrastructure.event.kafka;
+package com.pablodev.shared.infrastructure.event.kafka.configuration;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

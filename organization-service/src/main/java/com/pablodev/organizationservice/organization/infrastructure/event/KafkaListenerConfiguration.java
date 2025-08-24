@@ -18,4 +18,5 @@ public class KafkaListenerConfiguration {
                 .build();
     }
     // @formatter:on
+
 }

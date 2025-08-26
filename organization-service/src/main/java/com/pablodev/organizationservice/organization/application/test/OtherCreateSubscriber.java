@@ -6,12 +6,10 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class CreateSubscriber implements DomainSubscriber<OrganizationCreateEvent> {
+public class OtherCreateSubscriber implements DomainSubscriber<OrganizationCreateEvent> {
 
     @Override
     public void on(OrganizationCreateEvent event) {
-        log.error("Trying to consume organization create event");
-        throw new RuntimeException("Unexpected exception");
+        log.info("OrganizationCreateEvent received");
     }
-
 }

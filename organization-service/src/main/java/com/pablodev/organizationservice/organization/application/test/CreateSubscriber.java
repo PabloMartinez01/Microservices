@@ -8,7 +8,8 @@ public class CreateSubscriber implements DomainSubscriber<OrganizationCreateEven
 
     @Override
     public void on(OrganizationCreateEvent event) {
-        System.out.println("OrganizationCreateEvent: OrganizationCreateEvent received");
+        System.out.println("Trying to consume organization create event");
+        throw new RuntimeException("Unexpected exception");
     }
 
 }

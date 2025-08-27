@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public class DomainSubscriberInformation {
 
+    private final String id;
     private final Class<? extends DomainSubscriber<?>> subscriberClass;
     private final Class<? extends DomainEvent> eventClass;
 
@@ -14,6 +15,7 @@ public class DomainSubscriberInformation {
             Class<? extends DomainSubscriber<?>> subscriberClass,
             Class<? extends DomainEvent> eventClass
     ) {
+        this.id = subscriberClass.getName();
         this.subscriberClass = subscriberClass;
         this.eventClass = eventClass;
     }

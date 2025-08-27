@@ -8,10 +8,12 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 import org.reflections.Reflections;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class DomainSubscribersRegistry {
 
     private final Map<Class<? extends DomainSubscriber<?>>, DomainSubscriberInformation> subscribersByClass = new HashMap<>();
